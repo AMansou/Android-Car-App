@@ -16,14 +16,16 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL("CREATE TABLE CUSTOMER(ID LONG PRIMARY KEY,NAME TEXT, PHONE TEXT,GENDER TEXT)") ;
+        sqLiteDatabase.execSQL("CREATE TABLE CUSTOMER(EMAIL TEXT PRIMARY KEY,FIRSTNAME TEXT, LASTNAME TEXT, COUNTRY TEXT, CITY TEXT, " +
+                "PASSWORD TEXT,  " +
+                "PHONE TEXT,GENDER TEXT)") ;
     }
     public void insertCustomer(Customer customer) {
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("EMAIL", customer.getEmail());
-        contentValues.put("FIRST NAME", customer.getFirstName());
-        contentValues.put("LAST NAME", customer.getLastName());
+        contentValues.put("FIRSTNAME", customer.getFirstName());
+        contentValues.put("LASTNAME", customer.getLastName());
         contentValues.put("PHONE", customer.getPhone());
         contentValues.put("PASSWORD", customer.getPassword());
         contentValues.put("GENDER", customer.getGender());

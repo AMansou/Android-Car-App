@@ -139,9 +139,16 @@
             android:layout_weight="1"
             android:text="Phone" />
 
+        <TextView
+            android:id="@+id/code"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TextView" />
+
         <EditText
             android:id="@+id/phone"
-            android:layout_width="wrap_content"
+            android:layout_width="142dp"
             android:layout_height="35dp"
             android:layout_weight="1"
             android:ems="10"
@@ -214,5 +221,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Add Customer" />
+
+    <LinearLayout
+        android:id="@+id/lol"
+        android:layout_width="match_parent"
+        android:layout_height="181dp"
+        android:orientation="horizontal"></LinearLayout>
 
 </LinearLayout>
