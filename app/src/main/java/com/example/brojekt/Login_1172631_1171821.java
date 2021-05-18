@@ -3,6 +3,7 @@ package com.example.brojekt;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -58,6 +59,21 @@ SharedPrefManager shared;
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                DataBaseHelper dataBaseHelper =new DataBaseHelper(Login_1172631_1171821.this,"CUSTOMER",null,1);
+                Cursor allCustomersCursor = dataBaseHelper.getAllCustomers();
+                while (allCustomersCursor.moveToNext()){
+
+                    if(email.getText().toString().equals(allCustomersCursor.getString(0)) &&
+                            password.getText().toString().equals(allCustomersCursor.getString(5)))
+                        break;
+                    if(allCustomersCursor.isLast())
+                    {
+                        Toast.makeText(Login_1172631_1171821.this, "Wrong Email/password combination",
+                                Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                }
                 if (save.isChecked())
                 {
                     shared.writeString("email",email.getText().toString());
