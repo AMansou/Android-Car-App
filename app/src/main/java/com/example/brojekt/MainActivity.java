@@ -29,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
                         ConnectionAsyncTask(MainActivity.this);
 
                 connectionAsyncTask.execute("http://www.mocky.io/v2/5bfea5963100006300bb4d9a");
+                Intent intent = new Intent( MainActivity.this, Login_1172631_1171821.class);
+                MainActivity.this.startActivity(intent);
+                finish();
             }
         });
         linearLayout = (LinearLayout) findViewById(R.id.layout);
