@@ -80,7 +80,7 @@ SharedPrefManager shared;
                     shared.writeString("password",password.getText().toString());
                 }
 
-                Intent intent = new Intent( Login_1172631_1171821.this, CustomerHome_1172631_1171821.class);
+                Intent intent = new Intent( Login_1172631_1171821.this, CustomerHome2_1172631_1171821.class);
                 Login_1172631_1171821.this.startActivity(intent);
                 finish();
             }
