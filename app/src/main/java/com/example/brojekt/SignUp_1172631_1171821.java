@@ -101,6 +101,15 @@ public class SignUp_1172631_1171821 extends AppCompatActivity implements Adapter
             SignUp_1172631_1171821.this.startActivity(intent);
             finish();
         } });
+        Button back=(Button) findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent( SignUp_1172631_1171821.this, Login_1172631_1171821.class);
+                SignUp_1172631_1171821.this.startActivity(intent);
+                finish();
+            }
+        });
 
 
     }
