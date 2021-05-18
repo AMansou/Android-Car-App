@@ -23,10 +23,13 @@ public class ConnectionAsyncTask extends AsyncTask<String, String,
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        ((MainActivity) activity).setProgress(false);
-        ((MainActivity) activity).setButtonText("connected");
-        //List<Car> cars =
-        //        CarJasonParser.getObjectFromJason(s);
-        //((MainActivity) activity).fillCars(cars);
+        if(s!= null) {
+            ((MainActivity) activity).setProgress(false);
+            ((MainActivity) activity).setButtonText("connected");
+            List<Car> cars = CarJasonParser.getObjectFromJason(s);
+            ((MainActivity) activity).fillCars(cars);
+        }else{
+            System.out.println("connection failed");
+        }
     }
 }

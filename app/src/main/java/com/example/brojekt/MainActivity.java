@@ -3,11 +3,14 @@ package com.example.brojekt;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void fillCars(List<Car> car) {
+        DataBaseHelper dbhp = new DataBaseHelper(MainActivity.this,"DB", null,1);
+    }
     public void setButtonText(String text) {
         button.setText(text);
     }
