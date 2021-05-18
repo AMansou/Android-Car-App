@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <group android:checkableBehavior="single">
+        <item android:title="Admin Menu"></item>
+        <item android:id="@+id/delete_customer"
+            android:icon="@drawable/delete_customer_icon"
+            android:title="Delete Customer" />
+        <item android:id="@+id/add_admin"
+            android:icon="@drawable/add_admin_icon"
+            android:title="Add Admin" />
+        <item android:id="@+id/view_reserves"
+            android:icon="@drawable/view_reserves_icon"
+            android:title="View Car Reserves" />
+        <item android:id="@+id/logout_admin"
+            android:icon="@drawable/logout_icon"
+            android:title="Logout" />
+    </group>
+</menu>
