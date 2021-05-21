@@ -51,7 +51,7 @@ public class GalleryFragment extends Fragment {
 
             button=new Button(container.getContext());
             buttons.add(button);
-            buttons.get(i).setText(c.getString(0));//String.valueOf(i));
+            buttons.get(i).setText(c.getString(1));//String.valueOf(i));
             if(i%4==0){
                 lol.addView(linearLayout);
                 linearLayout=new LinearLayout(container.getContext());
@@ -68,8 +68,10 @@ public class GalleryFragment extends Fragment {
         final FragmentManager fragmentManager = myContext.getSupportFragmentManager();
         String str;
         final CarFrag firstFragment = new CarFrag();
-        for ( i=0;i<buttons.size();i++) {
-            str=buttons.get(i).getText().toString();
+        c=dataBaseHelper.getAllCars();
+        i=0;
+        while ( c.moveToNext()) {
+            str="Model: "+c.getString(1)+"\nMake: "+c.getString(0)+"\nYear: "+c.getString(2)+"\nPrice: "+c.getString(3)+"$\nDistance in Km: "+c.getString(4)+"\n"+ c.getString(5)+"\n"+c.getString(6)+"\n";
             final String finalStr = str;
             buttons.get(i).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -88,6 +90,7 @@ public class GalleryFragment extends Fragment {
                     }
                 }
             });
+            i++;
         }
         return root;
 

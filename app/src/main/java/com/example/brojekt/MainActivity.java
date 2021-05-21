@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void fillCars(List<Car> car) {   //this function loads the cars into the sqlite database
         //System.out.println(car.get(1));
-        DataBaseHelper dbhp = new DataBaseHelper(MainActivity.this,"DB", null,1);
+        DataBaseHelper dbhp = new DataBaseHelper(MainActivity.this,"CARS", null,1);
         //SQLiteDatabase sqdb = dbhp.getWritableDatabase();
         for (int i = 0; i < car.size(); i++) {
             dbhp.insertCar(car.get(i));
