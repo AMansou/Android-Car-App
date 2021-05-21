@@ -17,8 +17,5 @@
     <string name="title_activity_admin_login1172631_1171821">AdminLogin1172631_1171821</string>
     <string name="title_activity_admin_page_1172631_1171821">adminPage_1172631_1171821</string>
     <string name="title_activity_admin_page11726311171821">adminPage_1172631_1171821</string>
-    <string name="title_activity_customer_home2_1172631_1171821">CustomerHome2_1172631_1171821
-    </string>
-
-    <string name="home_second">Home Second</string>
+    <string name="title_activity_admin_1172631_1171821">admin_activity_1172631_1171821</string>
 </resources>
