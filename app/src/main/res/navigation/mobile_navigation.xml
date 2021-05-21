@@ -40,9 +40,4 @@
         android:name="com.example.brojekt.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
-    <fragment
-        android:id="@+id/favorites"
-        android:name="com.example.brojekt.ui.favorites.FavoritesFragment"
-        android:label="@string/favorites"
-        tools:layout="@layout/fragment_favorites" />
 </navigation>

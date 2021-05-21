@@ -22,7 +22,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.brojekt.Car;
 import com.example.brojekt.CarFrag;
-import com.example.brojekt.CustomerHome2_1172631_1171821;
+import com.example.brojekt.CustomerHome_1172631_1171821;
 import com.example.brojekt.DataBaseHelper;
 import com.example.brojekt.R;
 import com.example.brojekt.SignUp_1172631_1171821;
@@ -40,25 +40,25 @@ public class GalleryFragment extends Fragment {
         View root=inflater.inflate(R.layout.fragment_gallery,container,false);
         LinearLayout lol=(LinearLayout) root.findViewById(R.id.lol);
         final Button addButton =new Button(container.getContext());
-        DataBaseHelper dataBaseHelper =new DataBaseHelper(container.getContext(),"CUSTOMER",null,1);
-        Cursor c=dataBaseHelper.getAllCustomers();
+        DataBaseHelper dataBaseHelper =new DataBaseHelper(container.getContext(),"CARS",null,1);
+        Cursor c=dataBaseHelper.getAllCars();
 
-         Button  button;
+        Button  button;
         ArrayList<Button> buttons = new ArrayList<Button>();
         linearLayout=new LinearLayout(container.getContext());
         int i = 0;
-        while(i<10){
-            i=0;
+        while(c.moveToNext()){
+
             button=new Button(container.getContext());
             buttons.add(button);
-            buttons.get(i).setText(String.valueOf(i));
+            buttons.get(i).setText(c.getString(0));//String.valueOf(i));
             if(i%4==0){
                 lol.addView(linearLayout);
                 linearLayout=new LinearLayout(container.getContext());
                 linearLayout.setOrientation(LinearLayout.HORIZONTAL);
 
             }
-                linearLayout.addView(buttons.get(i));
+            linearLayout.addView(buttons.get(i));
             i++;
 
 
@@ -66,7 +66,7 @@ public class GalleryFragment extends Fragment {
         if(i%4!=0)
             lol.addView(linearLayout);
         final FragmentManager fragmentManager = myContext.getSupportFragmentManager();
-         String str;
+        String str;
         final CarFrag firstFragment = new CarFrag();
         for ( i=0;i<buttons.size();i++) {
             str=buttons.get(i).getText().toString();
