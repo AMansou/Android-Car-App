@@ -3,12 +3,16 @@ package com.example.brojekt;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -39,12 +43,36 @@ public class CustomerHome2_1172631_1171821 extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,R.id.favorites)
                 .setDrawerLayout(drawer)
                 .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        final NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+
+        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener(){
+            @Override
+            public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @NonNull Bundle arguments){
+                int id=destination.getId();
+                switch(id)
+                {
+                    case R.id.nav_home:
+                        Toast.makeText(CustomerHome2_1172631_1171821.this, "Invalid E-mail Address",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.nav_gallery:
+                        Toast.makeText(CustomerHome2_1172631_1171821.this, "Fucking fuck jannies and fucking fuck trannies",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.nav_slideshow:
+                        Toast.makeText(CustomerHome2_1172631_1171821.this, "call us man please",
+                                Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+
     }
 
     @Override
@@ -60,4 +88,5 @@ public class CustomerHome2_1172631_1171821 extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
 }
