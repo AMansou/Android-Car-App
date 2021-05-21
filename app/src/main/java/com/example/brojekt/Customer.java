@@ -14,6 +14,7 @@ public class Customer {
     private String City;
     private String Phone;
     private String Gender;
+    private boolean admin;
     public Customer() {
 
     }
@@ -24,6 +25,7 @@ public class Customer {
         this.lastName = lastName;
         this.password = password;
         this.country = country;
+        this.admin = false;
         City = city;
         Phone = phone;
         Gender = gender;
@@ -63,6 +65,14 @@ public class Customer {
 
     public String getCountry() {
         return country;
+    }
+
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
     }
 
     public void setCountry(String country) {
