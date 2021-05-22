@@ -23,7 +23,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("CREATE TABLE CUSTOMER(EMAIL TEXT PRIMARY KEY,FIRSTNAME TEXT," +
                 "LASTNAME TEXT, PHONE TEXT, PASSWORD TEXT, GENDER TEXT, COUNTRY TEXT, CITY TEXT," +
-                "ISADMIN BOOLEAN, CARS TEXT)") ;
+                "ISADMIN BOOLEAN)") ;
         sqLiteDatabase.execSQL("CREATE TABLE CARS(MODEL TEXT PRIMARY KEY, MAKE TEXT , YEAR TEXT" +
                 ", PRICE INT, DISTANCE INT, ACCIDENTS BOOLEAN, OFFERS BOOLEAN)");
     }
@@ -39,31 +39,23 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         contentValues.put("COUNTRY", customer.getCountry());
         contentValues.put("CITY", customer.getCity());
         contentValues.put("ISADMIN", customer.isAdmin());
-        contentValues.put("CARS",customer.getCars());
         sqLiteDatabase.insert("CUSTOMER", null, contentValues);
     }
-    public void updateCustomer(String email, Customer c){
-        deleteCustomer(email);
-        insertCustomer(c);
-    }
 
-    public void deleteCustomer(String email) {
+    public void deleteCustomer(String id) {
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-        sqLiteDatabase.delete("CUSTOMER", "EMAIL=?",new String[] {email});
+        //ontentValues contentValues = new ContentValues();
+        //contentValues.put("ID", customer.getID());
+        sqLiteDatabase.delete("CUSTOMER", "ID=?",new String[] {id});
     }
 
-    public Customer getCustomer(int id) {
-        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-        Cursor cursor = sqLiteDatabase.query("CUSTOMER", new String[] {  "EMAIL",
-                        "FIRSTNAME", "LASTNAME", "PHONE", "PASSWORD", "GENDER", "COUNTRY", "CITY", "ISADMIN","CARS" }, "EMAIL" + "=?",
-                new String[] { String.valueOf(id) }, null, null, null, null);
-        if (cursor != null)
-            cursor.moveToFirst();
-
-        Customer co1 = new Customer(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(5),
-                cursor.getString(7), cursor.getString(8), cursor.getString(4), cursor.getString(6));
-        return co1;
+    public String getCustomer(String email) {
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cur = db.rawQuery("select ISADMIN from CUSTOMER where EMAIL = ?", new String[]{email.toString()});
+        return cur.getString(0);
     }
+
+
     public Cursor getAllCustomers() {
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         return sqLiteDatabase.rawQuery("SELECT * FROM CUSTOMER", null);

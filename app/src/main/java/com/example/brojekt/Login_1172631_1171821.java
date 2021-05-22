@@ -35,6 +35,25 @@ SharedPrefManager shared;
                     shared.writeString("password",password.getText().toString());
                 }
 
+
+                DataBaseHelper dataBaseHelper1 =new DataBaseHelper(Login_1172631_1171821.this,"CUSTOMER",null,1);
+                Cursor allCustomersCursor = dataBaseHelper1.getAllCustomers();
+                int adminflag = 0;
+
+                if(email.getText().toString().equalsIgnoreCase("admin@admin.com")){
+                    adminflag = 1;
+                }
+                while (allCustomersCursor.moveToNext()) {
+                    if (allCustomersCursor.getString(0).equals(email.getText().toString()) && allCustomersCursor.getString(8).equals("true")){
+                        adminflag = 1;
+                    }
+                }
+                if (adminflag == 1){
+                    Intent intent = new Intent( Login_1172631_1171821.this, AdminPage_1172631_1171821.class);
+                    Login_1172631_1171821.this.startActivity(intent);
+                    finish();
+                }
+
                 Intent intent = new Intent( Login_1172631_1171821.this, CustomerHome_1172631_1171821.class);
                 Login_1172631_1171821.this.startActivity(intent);
                 finish();
@@ -78,6 +97,24 @@ SharedPrefManager shared;
                 {
                     shared.writeString("email",email.getText().toString());
                     shared.writeString("password",password.getText().toString());
+                }
+
+                DataBaseHelper dataBaseHelper1 =new DataBaseHelper(Login_1172631_1171821.this,"CUSTOMER",null,1);
+                Cursor customercursoradmin = dataBaseHelper1.getAllCustomers();
+                int adminflag = 0;
+
+                if(email.getText().toString().equalsIgnoreCase("admin@admin.com")){
+                    adminflag = 1;
+                }
+                while (customercursoradmin.moveToNext()) {
+                    if (customercursoradmin.getString(0).equals(email.getText().toString()) && allCustomersCursor.getString(8).equals("true")){
+                        adminflag = 1;
+                    }
+                }
+                if (adminflag == 1){
+                    Intent intent = new Intent( Login_1172631_1171821.this, AdminPage_1172631_1171821.class);
+                    Login_1172631_1171821.this.startActivity(intent);
+                    finish();
                 }
 
                 Intent intent = new Intent( Login_1172631_1171821.this, CustomerHome_1172631_1171821.class);
