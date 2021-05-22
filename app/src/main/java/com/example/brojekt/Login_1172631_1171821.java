@@ -54,7 +54,7 @@ SharedPrefManager shared;
                     finish();
                 }
 
-                Intent intent = new Intent( Login_1172631_1171821.this, CustomerHome_1172631_1171821.class);
+                Intent intent = new Intent( Login_1172631_1171821.this, AdminHome_1172631_1171821.class);
                 Login_1172631_1171821.this.startActivity(intent);
                 finish();
             }
@@ -117,7 +117,7 @@ SharedPrefManager shared;
                     finish();
                 }
 
-                Intent intent = new Intent( Login_1172631_1171821.this, CustomerHome_1172631_1171821.class);
+                Intent intent = new Intent( Login_1172631_1171821.this, AdminHome_1172631_1171821.class);
                 Login_1172631_1171821.this.startActivity(intent);
                 finish();
             }
