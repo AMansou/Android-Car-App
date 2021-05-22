@@ -64,7 +64,7 @@ SharedPrefManager shared;
                 while (allCustomersCursor.moveToNext()){
 
                     if(email.getText().toString().equals(allCustomersCursor.getString(0)) &&
-                            password.getText().toString().equals(allCustomersCursor.getString(5)))
+                            password.getText().toString().equals(allCustomersCursor.getString(4)))
                         break;
                     if(allCustomersCursor.isLast())
                     {
