@@ -12,13 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".CustomerHome_1172631_1171821"
-            android:label="@string/title_activity_customer_home_1172631_1171821"
+            android:name=".AdminHome_1172631_1171821"
+            android:label="@string/title_activity_admin_home_1172631_1171821"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".AdminPage_1172631_1171821"
-            android:label="@string/title_activity_admin_1172631_1171821"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:name=".CustomerHome_1172631_1171821"
+            android:label="@string/title_activity_customer_home_1172631_1171821"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".SignUp_1172631_1171821" />
         <activity android:name=".Login_1172631_1171821" />
         <activity

@@ -1,4 +1,4 @@
-package com.example.brojekt.ui.gallery;
+package com.example.brojekt.ui.slideshow;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.brojekt.R;
 
-public class GalleryFragment extends Fragment {
+public class ReservationFragment extends Fragment {
 
-    private GalleryViewModel galleryViewModel;
+    private ReservationViewFragment reservationViewFragment;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        galleryViewModel =
-                ViewModelProviders.of(this).get(GalleryViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_carsmenu, container, false);
-        final TextView textView = root.findViewById(R.id.text_gallery);
-        galleryViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        reservationViewFragment =
+                ViewModelProviders.of(this).get(ReservationViewFragment.class);
+        View root = inflater.inflate(R.layout.fragment_reservation, container, false);
+        final TextView textView = root.findViewById(R.id.text_slideshow);
+        reservationViewFragment.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
