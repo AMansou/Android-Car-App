@@ -49,18 +49,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.delete("CUSTOMER", "ID=?",new String[] {id});
     }
 
-    public Customer getCustomer(int id) {
-        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-        Cursor cursor = sqLiteDatabase.query("CUSTOMER", new String[] { "ID", "EMAIL",
-                        "FIRSTNAME", "LASTNAME", "PHONE", "PASSWORD", "GENDER", "COUNTRY", "CITY", "ISADMIN" }, "ID" + "=?",
-                new String[] { String.valueOf(id) }, null, null, null, null);
-        if (cursor != null)
-            cursor.moveToFirst();
-
-        Customer co1 = new Customer(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(5),
-                cursor.getString(7), cursor.getString(8), cursor.getString(4), cursor.getString(6));
-        return co1;
+    public String getCustomer(String email) {
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor cur = db.rawQuery("select ISADMIN from CUSTOMER where EMAIL = ?", new String[]{email.toString()});
+        return cur.getString(0);
     }
+
+
     public Cursor getAllCustomers() {
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         return sqLiteDatabase.rawQuery("SELECT * FROM CUSTOMER", null);
