@@ -14,6 +14,7 @@ public class Customer {
     private String City;
     private String Phone;
     private String Gender;
+    private String cars;
     private boolean admin;
     public Customer() {
 
@@ -102,6 +103,8 @@ public class Customer {
     public void setGender(String gender) {
         Gender = gender;
     }
+    public void setCars(String cars){this.cars=cars;}
+    public String getCars(){return cars;}
 
     @Override
     public String toString() {

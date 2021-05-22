@@ -23,7 +23,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("CREATE TABLE CUSTOMER(EMAIL TEXT PRIMARY KEY,FIRSTNAME TEXT," +
                 "LASTNAME TEXT, PHONE TEXT, PASSWORD TEXT, GENDER TEXT, COUNTRY TEXT, CITY TEXT," +
-                "ISADMIN BOOLEAN)") ;
+                "ISADMIN BOOLEAN, CARS TEXT)") ;
         sqLiteDatabase.execSQL("CREATE TABLE CARS(MODEL TEXT PRIMARY KEY, MAKE TEXT , YEAR TEXT" +
                 ", PRICE INT, DISTANCE INT, ACCIDENTS BOOLEAN, OFFERS BOOLEAN)");
     }
@@ -39,20 +39,23 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         contentValues.put("COUNTRY", customer.getCountry());
         contentValues.put("CITY", customer.getCity());
         contentValues.put("ISADMIN", customer.isAdmin());
+        contentValues.put("CARS",customer.getCars());
         sqLiteDatabase.insert("CUSTOMER", null, contentValues);
     }
+    public void updateCustomer(String email, Customer c){
+        deleteCustomer(email);
+        insertCustomer(c);
+    }
 
-    public void deleteCustomer(String id) {
+    public void deleteCustomer(String email) {
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-        //ontentValues contentValues = new ContentValues();
-        //contentValues.put("ID", customer.getID());
-        sqLiteDatabase.delete("CUSTOMER", "ID=?",new String[] {id});
+        sqLiteDatabase.delete("CUSTOMER", "EMAIL=?",new String[] {email});
     }
 
     public Customer getCustomer(int id) {
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
-        Cursor cursor = sqLiteDatabase.query("CUSTOMER", new String[] { "ID", "EMAIL",
-                        "FIRSTNAME", "LASTNAME", "PHONE", "PASSWORD", "GENDER", "COUNTRY", "CITY", "ISADMIN" }, "ID" + "=?",
+        Cursor cursor = sqLiteDatabase.query("CUSTOMER", new String[] {  "EMAIL",
+                        "FIRSTNAME", "LASTNAME", "PHONE", "PASSWORD", "GENDER", "COUNTRY", "CITY", "ISADMIN","CARS" }, "EMAIL" + "=?",
                 new String[] { String.valueOf(id) }, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();

@@ -72,7 +72,7 @@ public class GalleryFragment extends Fragment {
         c=dataBaseHelper.getAllCars();
         i=0;
         while ( c.moveToNext()) {
-            str="lolll";//"Model: "+c.getString(1)+"\nMake: "+c.getString(0)+"\nYear: "+c.getString(2)+"\nPrice: "+c.getString(3)+"$\nDistance in Km: "+c.getString(4)+"\n"+ c.getString(5)+"\n"+c.getString(6)+"\n";
+            str="Model: "+c.getString(1)+"\nMake: "+c.getString(0)+"\nYear: "+c.getString(2)+"\nPrice: "+c.getString(3)+"$\nDistance in Km: "+c.getString(4)+"\n"+ c.getString(5)+"\n"+c.getString(6)+"\n";
             final String finalStr = str;
             buttons.get(i).setOnClickListener(new View.OnClickListener() {
                 @Override
