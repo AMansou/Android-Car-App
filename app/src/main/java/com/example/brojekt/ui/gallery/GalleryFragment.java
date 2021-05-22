@@ -40,18 +40,21 @@ public class GalleryFragment extends Fragment {
         View root=inflater.inflate(R.layout.fragment_gallery,container,false);
         LinearLayout lol=(LinearLayout) root.findViewById(R.id.lol);
         final Button addButton =new Button(container.getContext());
-        DataBaseHelper dataBaseHelper =new DataBaseHelper(container.getContext(),"CARS",null,1);
-        Cursor c=dataBaseHelper.getAllCars();
+        DataBaseHelper dataBaseHelper =new DataBaseHelper(container.getContext(),"CUSTOMER",null,1);
+        Cursor c=dataBaseHelper.getAllCustomers();
+
 
         Button  button;
         ArrayList<Button> buttons = new ArrayList<Button>();
         linearLayout=new LinearLayout(container.getContext());
+        System.out.println("LOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOL");
         int i = 0;
         while(c.moveToNext()){
 
             button=new Button(container.getContext());
             buttons.add(button);
             buttons.get(i).setText(c.getString(1));//String.valueOf(i));
+            System.out.println(c.getString(0));
             if(i%4==0){
                 lol.addView(linearLayout);
                 linearLayout=new LinearLayout(container.getContext());
@@ -68,10 +71,10 @@ public class GalleryFragment extends Fragment {
         final FragmentManager fragmentManager = myContext.getSupportFragmentManager();
         String str;
         final CarFrag firstFragment = new CarFrag();
-        c=dataBaseHelper.getAllCars();
+        c=dataBaseHelper.getAllCustomers();
         i=0;
         while ( c.moveToNext()) {
-            str="Model: "+c.getString(1)+"\nMake: "+c.getString(0)+"\nYear: "+c.getString(2)+"\nPrice: "+c.getString(3)+"$\nDistance in Km: "+c.getString(4)+"\n"+ c.getString(5)+"\n"+c.getString(6)+"\n";
+            str="lolll";//"Model: "+c.getString(1)+"\nMake: "+c.getString(0)+"\nYear: "+c.getString(2)+"\nPrice: "+c.getString(3)+"$\nDistance in Km: "+c.getString(4)+"\n"+ c.getString(5)+"\n"+c.getString(6)+"\n";
             final String finalStr = str;
             buttons.get(i).setOnClickListener(new View.OnClickListener() {
                 @Override

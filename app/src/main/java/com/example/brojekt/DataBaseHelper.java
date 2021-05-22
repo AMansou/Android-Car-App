@@ -5,9 +5,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.io.File;
+
 public class DataBaseHelper extends SQLiteOpenHelper {
+    public String databasePath = "";
+
     public DataBaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
+        //databasePath = context.getDatabasePath("CUSTOMER.db").getPath();
     }
 
     @Override
@@ -16,7 +21,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL("CREATE TABLE CUSTOMER(ID LONG PRIMARY KEY,FIRSTNAME TEXT," +
+        sqLiteDatabase.execSQL("CREATE TABLE CUSTOMER(EMAIL TEXT PRIMARY KEY,FIRSTNAME TEXT," +
                 "LASTNAME TEXT, PHONE TEXT, PASSWORD TEXT, GENDER TEXT, COUNTRY TEXT, CITY TEXT," +
                 "ISADMIN BOOLEAN)") ;
         sqLiteDatabase.execSQL("CREATE TABLE CARS(MODEL TEXT PRIMARY KEY, MAKE TEXT , YEAR TEXT" +
