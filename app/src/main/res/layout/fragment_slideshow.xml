@@ -7,7 +7,7 @@
     tools:context=".ui.slideshow.SlideshowFragment">
 
     <TextView
-        android:id="@+id/text_slideshow"
+        android:id="@+id/text_car_res"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -17,7 +17,20 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="admin view reserves" />
+        app:layout_constraintVertical_bias="0.025"
+        tools:text="Car Reservations" />
+
+    <TextView
+        android:id="@+id/editTextTextMultiLineAdminCarRes"
+        android:layout_width="392dp"
+        android:layout_height="655dp"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_car_res" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
