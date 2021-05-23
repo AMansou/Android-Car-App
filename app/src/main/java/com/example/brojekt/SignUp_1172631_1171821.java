@@ -96,6 +96,8 @@ public class SignUp_1172631_1171821 extends AppCompatActivity implements Adapter
             newCustomer.setGender(genderSpinner.getSelectedItem().toString());
             newCustomer.setCountry(countrySpinner.getSelectedItem().toString());
             newCustomer.setCity(citySpinner.getSelectedItem().toString());
+            newCustomer.setCars("");
+            newCustomer.setAdmin(false);
             dataBaseHelper =new DataBaseHelper(SignUp_1172631_1171821.this,"CUSTOMER",null,1);
             dataBaseHelper.insertCustomer(newCustomer);
             Intent intent=new Intent(SignUp_1172631_1171821.this,Login_1172631_1171821.class);
