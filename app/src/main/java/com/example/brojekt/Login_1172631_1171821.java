@@ -130,6 +130,7 @@ public class Login_1172631_1171821 extends AppCompatActivity {
                 customer.setCity(allCustomersCursor.getString(7));
                 customer.setAdmin(Boolean.parseBoolean(allCustomersCursor.getString(8)) );
                 customer.setCars(allCustomersCursor.getString(9));
+                customer.setFavorites(allCustomersCursor.getString(10));
                 Intent intent = new Intent( Login_1172631_1171821.this, CustomerHome_1172631_1171821.class);
                 Login_1172631_1171821.this.startActivity(intent);
                 finish();

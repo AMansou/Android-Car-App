@@ -15,6 +15,7 @@ public class Customer {
     private String Phone;
     private String Gender;
     private String cars;
+    private String favorites;
     private boolean admin;
     public Customer() {
 
@@ -105,6 +106,8 @@ public class Customer {
     }
     public void setCars(String cars){this.cars=cars;}
     public String getCars(){return cars;}
+    public void setFavorites(String favorites){this.favorites=favorites;}
+    public String getFavorites(){return favorites;}
 
     @Override
     public String toString() {
@@ -117,6 +120,8 @@ public class Customer {
                 ", City='" + City + '\'' +
                 ", Phone='" + Phone + '\'' +
                 ", Gender='" + Gender + '\'' +
+                ", Reserved Cars: '"+cars+'\''+
+                ", Favorite Cars: '"+favorites+'\''+
                 '}';
     }
 }
