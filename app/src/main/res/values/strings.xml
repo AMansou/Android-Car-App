@@ -10,7 +10,8 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-
+    <string name="menu_favorites">Favorites</string>
+    <string name="menu_profile">Profile</string>
     <string name="menu_home">Delete User</string>
     <string name="menu_gallery">Add Admin</string>
     <string name="menu_slideshow">Car Reserves</string>
