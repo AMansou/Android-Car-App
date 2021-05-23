@@ -41,11 +41,11 @@ public class Login_1172631_1171821 extends AppCompatActivity {
                 Cursor allCustomersCursor = dataBaseHelper1.getAllCustomers();
                 int adminflag = 0;
 
-                if(email.getText().toString().equalsIgnoreCase("admin@admin.com")){
+                if(email.getText().toString().trim().equalsIgnoreCase("admin@admin.com")){
                     adminflag = 1;
                 }
                 while (allCustomersCursor.moveToNext()) {
-                    if (allCustomersCursor.getString(0).equals(email.getText().toString()) && allCustomersCursor.getString(8).equals("true")){
+                    if (allCustomersCursor.getString(0).trim().equals(email.getText().toString().trim()) && allCustomersCursor.getString(8).equals("true")){
                         adminflag = 1;
                     }
                 }
@@ -55,7 +55,7 @@ public class Login_1172631_1171821 extends AppCompatActivity {
                     finish();
                 }
 
-                Intent intent = new Intent( Login_1172631_1171821.this, CustomerHome_1172631_1171821.class);
+                Intent intent = new Intent( Login_1172631_1171821.this, AdminHome_1172631_1171821.class);
                 Login_1172631_1171821.this.startActivity(intent);
                 finish();
             }
@@ -104,11 +104,12 @@ public class Login_1172631_1171821 extends AppCompatActivity {
                 Cursor customercursoradmin = dataBaseHelper1.getAllCustomers();
                 int adminflag = 0;
 
-                if(email.getText().toString().equalsIgnoreCase("admin@admin.com")){
+                if(email.getText().toString().trim().equalsIgnoreCase("admin@admin.com")){
                     adminflag = 1;
                 }
                 while (customercursoradmin.moveToNext()) {
-                    if (customercursoradmin.getString(0).equals(email.getText().toString()) && allCustomersCursor.getString(8).equals("true")){
+                    if (customercursoradmin.getString(0).trim().equals(email.getText().
+                            toString().trim()) && allCustomersCursor.getString(8).equals("true")){
                         adminflag = 1;
                     }
                 }
@@ -128,7 +129,7 @@ public class Login_1172631_1171821 extends AppCompatActivity {
                 customer.setAdmin(Boolean.parseBoolean(allCustomersCursor.getString(8)) );
                 customer.setCars(allCustomersCursor.getString(9));
                 customer.setFavorites(allCustomersCursor.getString(10));
-                Intent intent = new Intent( Login_1172631_1171821.this, CustomerHome_1172631_1171821.class);
+                Intent intent = new Intent( Login_1172631_1171821.this, AdminHome_1172631_1171821.class);
                 Login_1172631_1171821.this.startActivity(intent);
                 finish();
             }
