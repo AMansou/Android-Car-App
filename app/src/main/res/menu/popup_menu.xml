@@ -6,7 +6,7 @@
 
     <item
         android:id="@+id/reserve"
-        android:title="Reserve This Car"/>
+        android:title="Reserve/Unreserve This Car" />
 
     <item
         android:id="@+id/favorite"

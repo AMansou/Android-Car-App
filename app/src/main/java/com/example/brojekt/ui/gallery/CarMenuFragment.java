@@ -30,7 +30,9 @@ import com.example.brojekt.R;
 import com.example.brojekt.SignUp_1172631_1171821;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import static com.example.brojekt.Login_1172631_1171821.customer;
 
@@ -49,7 +51,7 @@ public class CarMenuFragment extends Fragment {
         Cursor c=dataBaseHelper.getAllCars();
         /****************************************************************/
         Messagebox f=new Messagebox();
-        f.show("bye",customer.getFavorites(),container.getContext());
+        f.show("bye",customer.getCars(),container.getContext());
 
 
         final Button[] button = new Button[1];
@@ -128,7 +130,8 @@ public class CarMenuFragment extends Fragment {
                             if(id == R.id.reserve) {
                                 if (!customer.getCars().contains(finalMessage))
                                 m.show("hello",finalMessage, container.getContext());
-                                m.show2("hello",finalMessage,container.getContext());
+                                else
+                                    m.show2("hello",finalMessage,container.getContext());
 
                                 return true;
                             }
