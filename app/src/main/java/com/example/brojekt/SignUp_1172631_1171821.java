@@ -55,9 +55,12 @@ public class SignUp_1172631_1171821 extends AppCompatActivity implements Adapter
             }
             //allCustomersCursor.moveToFirst();
             //fname.setText(allCustomersCursor.getString(0)+"\n");
-            if(email.getText().toString().isEmpty())
+            if(email.getText().toString().isEmpty()) {
                 Toast.makeText(SignUp_1172631_1171821.this, "Invalid E-mail Address",
                         Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             else
                 newCustomer.setEmail(email.getText().toString());
             if(fname.getText().toString().isEmpty() || Pattern.matches("[0-9]+",fname.getText().toString())) {
