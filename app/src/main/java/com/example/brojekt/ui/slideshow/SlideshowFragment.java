@@ -1,9 +1,12 @@
 package com.example.brojekt.ui.slideshow;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,19 +15,27 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.brojekt.DataBaseHelper;
 import com.example.brojekt.R;
 
 public class SlideshowFragment extends Fragment {
 
+    TextView carResDisplay;
     private SlideshowViewModel slideshowViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        slideshowViewModel =
-                ViewModelProviders.of(this).get(SlideshowViewModel.class);
+
         View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
-        final TextView textView = root.findViewById(R.id.text_slideshow);
-        textView.setText("view car reserves");
+        carResDisplay = root.findViewById(R.id.editTextTextMultiLineAdminCarRes);
+        String carReservations = "";
+        final DataBaseHelper dataBaseHelper =new DataBaseHelper(container.getContext(),"CUSTOMER",null,1);
+        Cursor c = dataBaseHelper.getAllCustomers();
+
+        while(c.moveToNext()){
+            carReservations = carReservations + c.getString(9);
+        }
+        carResDisplay.setText(carReservations);
         return root;
     }
 }

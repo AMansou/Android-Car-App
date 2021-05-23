@@ -55,7 +55,7 @@ public class HomeFragment extends Fragment {
                     }
                 }
                 db.deleteCustomer(email);
-                Toast.makeText(thiscontext, email + "has been removed", Toast.LENGTH_LONG).show();
+                Toast.makeText(thiscontext, email + " has been removed", Toast.LENGTH_LONG).show();
             }
         });
 

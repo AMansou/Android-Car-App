@@ -37,16 +37,19 @@ public class Login_1172631_1171821 extends AppCompatActivity {
                 }
 
 
-                DataBaseHelper dataBaseHelper1 =new DataBaseHelper(Login_1172631_1171821.this,"CUSTOMER",null,1);
-                Cursor allCustomersCursor = dataBaseHelper1.getAllCustomers();
-                int adminflag = 0;
 
-                if(email.getText().toString().equalsIgnoreCase("admin@admin.com")){
+
+                DataBaseHelper dataBaseHelper1 =new DataBaseHelper(Login_1172631_1171821.this,"CUSTOMER",null,1);
+                Cursor customercursoradmin = dataBaseHelper1.getAllCustomers();
+                int adminflag = 0;
+                if(email.getText().toString().trim().equalsIgnoreCase("admin@admin.com")){
                     adminflag = 1;
-                }
-                while (allCustomersCursor.moveToNext()) {
-                    if (allCustomersCursor.getString(0).equals(email.getText().toString()) && allCustomersCursor.getString(8).equals("true")){
-                        adminflag = 1;
+                }else{
+                    while (customercursoradmin.moveToNext()) {
+                        if (customercursoradmin.getString(0).trim().equals(email.getText().
+                                toString().trim()) && customercursoradmin.getString(8).equals("1")){
+                            adminflag = 1;
+                        }
                     }
                 }
                 if (adminflag == 1){
@@ -54,10 +57,11 @@ public class Login_1172631_1171821 extends AppCompatActivity {
                     Login_1172631_1171821.this.startActivity(intent);
                     finish();
                 }
-
-                Intent intent = new Intent( Login_1172631_1171821.this, CustomerHome_1172631_1171821.class);
-                Login_1172631_1171821.this.startActivity(intent);
-                finish();
+                else{
+                    Intent intent = new Intent( Login_1172631_1171821.this, CustomerHome_1172631_1171821.class);
+                    Login_1172631_1171821.this.startActivity(intent);
+                    finish();
+                }
             }
         });
     }
@@ -100,37 +104,45 @@ public class Login_1172631_1171821 extends AppCompatActivity {
                     shared.writeString("password",password.getText().toString());
                 }
 
+
+
                 DataBaseHelper dataBaseHelper1 =new DataBaseHelper(Login_1172631_1171821.this,"CUSTOMER",null,1);
                 Cursor customercursoradmin = dataBaseHelper1.getAllCustomers();
                 int adminflag = 0;
-
-                if(email.getText().toString().equalsIgnoreCase("admin@admin.com")){
+                if(email.getText().toString().trim().equalsIgnoreCase("admin@admin.com")){
                     adminflag = 1;
+                }else{
+                    while (customercursoradmin.moveToNext()) {
+                        if (customercursoradmin.getString(0).trim().equals(email.getText().
+                                toString().trim()) && customercursoradmin.getString(8).equals("1")){
+                            adminflag = 1;
+                        }
                 }
-                while (customercursoradmin.moveToNext()) {
-                    if (customercursoradmin.getString(0).equals(email.getText().toString()) && allCustomersCursor.getString(8).equals("true")){
-                        adminflag = 1;
-                    }
                 }
                 if (adminflag == 1){
                     Intent intent = new Intent( Login_1172631_1171821.this, AdminHome_1172631_1171821.class);
                     Login_1172631_1171821.this.startActivity(intent);
                     finish();
                 }
-                customer.setEmail(allCustomersCursor.getString(0));
-                customer.setFirstName(allCustomersCursor.getString(1));
-                customer.setLastName(allCustomersCursor.getString(2));
-                customer.setPhone(allCustomersCursor.getString(3));
-                customer.setPassword(allCustomersCursor.getString(4));
-                customer.setGender(allCustomersCursor.getString(5));
-                customer.setCountry(allCustomersCursor.getString(6));
-                customer.setCity(allCustomersCursor.getString(7));
-                customer.setAdmin(Boolean.parseBoolean(allCustomersCursor.getString(8)) );
-                customer.setCars(allCustomersCursor.getString(9));
-                customer.setFavorites(allCustomersCursor.getString(10));
-                Intent intent = new Intent( Login_1172631_1171821.this, CustomerHome_1172631_1171821.class);
-                Login_1172631_1171821.this.startActivity(intent);
-                finish();
+                else{
+                    customer.setEmail(allCustomersCursor.getString(0));
+                    customer.setFirstName(allCustomersCursor.getString(1));
+                    customer.setLastName(allCustomersCursor.getString(2));
+                    customer.setPhone(allCustomersCursor.getString(3));
+                    customer.setPassword(allCustomersCursor.getString(4));
+                    customer.setGender(allCustomersCursor.getString(5));
+                    customer.setCountry(allCustomersCursor.getString(6));
+                    customer.setCity(allCustomersCursor.getString(7));
+                    customer.setAdmin(Boolean.parseBoolean(allCustomersCursor.getString(8)) );
+                    customer.setCars(allCustomersCursor.getString(9));
+                    customer.setFavorites(allCustomersCursor.getString(10));
+                    Intent intent = new Intent( Login_1172631_1171821.this, CustomerHome_1172631_1171821.class);
+                    Login_1172631_1171821.this.startActivity(intent);
+                    finish();
+                }
+
+
+
             }
         });
         Button signUp=(Button) findViewById(R.id.signUp);
