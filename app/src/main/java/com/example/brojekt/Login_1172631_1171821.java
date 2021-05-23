@@ -12,7 +12,8 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 public class Login_1172631_1171821 extends AppCompatActivity {
-SharedPrefManager shared;
+    public static Customer customer=new Customer();
+    SharedPrefManager shared;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +81,9 @@ SharedPrefManager shared;
             public void onClick(View view) {
                 DataBaseHelper dataBaseHelper =new DataBaseHelper(Login_1172631_1171821.this,"CUSTOMER",null,1);
                 Cursor allCustomersCursor = dataBaseHelper.getAllCustomers();
+                //Messagebox m=new Messagebox();
+                //allCustomersCursor.moveToFirst();
+                //m.show("hello", String.valueOf(allCustomersCursor.getCount()), Login_1172631_1171821.this);
                 while (allCustomersCursor.moveToNext()){
 
                     if(email.getText().toString().equals(allCustomersCursor.getString(0)) &&
@@ -116,7 +120,16 @@ SharedPrefManager shared;
                     Login_1172631_1171821.this.startActivity(intent);
                     finish();
                 }
-
+                customer.setEmail(allCustomersCursor.getString(0));
+                customer.setFirstName(allCustomersCursor.getString(1));
+                customer.setLastName(allCustomersCursor.getString(2));
+                customer.setPhone(allCustomersCursor.getString(3));
+                customer.setPassword(allCustomersCursor.getString(4));
+                customer.setGender(allCustomersCursor.getString(5));
+                customer.setCountry(allCustomersCursor.getString(6));
+                customer.setCity(allCustomersCursor.getString(7));
+                customer.setAdmin(Boolean.parseBoolean(allCustomersCursor.getString(8)) );
+                customer.setCars(allCustomersCursor.getString(9));
                 Intent intent = new Intent( Login_1172631_1171821.this, CustomerHome_1172631_1171821.class);
                 Login_1172631_1171821.this.startActivity(intent);
                 finish();
@@ -133,4 +146,5 @@ SharedPrefManager shared;
         });
 
     }
+
 }
