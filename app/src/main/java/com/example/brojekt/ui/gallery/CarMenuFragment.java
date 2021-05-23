@@ -126,23 +126,24 @@ public class CarMenuFragment extends Fragment {
 
                             int id = item.getItemId();
                             if(id == R.id.reserve) {
-
+                                if (!customer.getCars().contains(finalMessage))
                                 m.show("hello",finalMessage, container.getContext());
+                                m.show2("hello",finalMessage,container.getContext());
 
                                 return true;
                             }
                             else if(id==R.id.favorite)
                             {
                                 MenuItem fav=(MenuItem)root.findViewById(R.id.favorite);
-                                if (!customer.getFavorites().contains(finalMessage)){
+                                if (!customer.getFavorites().contains(finalMessage2)){
                                     DataBaseHelper dataBaseHelper=new DataBaseHelper(container.getContext(),"CUSTOMER",null,1);
-                                    customer.setFavorites(customer.getFavorites()+"\n"+finalMessage);
+                                    customer.setFavorites(customer.getFavorites()+"\n"+finalMessage2);
                                     dataBaseHelper.updateCustomer(customer.getEmail(),customer);
                                     Toast.makeText(container.getContext(), "Car added to favorites successfully",
                                             Toast.LENGTH_SHORT).show();}
                                 else{
                                     DataBaseHelper dataBaseHelper=new DataBaseHelper(container.getContext(),"CUSTOMER",null,1);
-                                    customer.setFavorites(customer.getFavorites().replace( "\n"+finalMessage,"") );
+                                    customer.setFavorites(customer.getFavorites().replace( "\n"+finalMessage2,"") );
                                     dataBaseHelper.updateCustomer(customer.getEmail(),customer);
                                     Toast.makeText(container.getContext(), "Car removed from favorites successfully",Toast.LENGTH_SHORT).show();
                                 }
