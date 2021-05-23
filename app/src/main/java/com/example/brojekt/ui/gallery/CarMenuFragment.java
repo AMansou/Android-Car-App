@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.RadioButton;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,32 +42,33 @@ public class CarMenuFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root=inflater.inflate(R.layout.fragment_carsmenu,container,false);
-        LinearLayout lol=(LinearLayout) root.findViewById(R.id.lol);
+        final View root=inflater.inflate(R.layout.fragment_carsmenu,container,false);
+        final LinearLayout lol=(LinearLayout) root.findViewById(R.id.lol);
         final Button addButton =new Button(container.getContext());
-        DataBaseHelper dataBaseHelper =new DataBaseHelper(container.getContext(),"CARS",null,1);
+        final DataBaseHelper dataBaseHelper =new DataBaseHelper(container.getContext(),"CARS",null,1);
         Cursor c=dataBaseHelper.getAllCars();
         /****************************************************************/
         Messagebox f=new Messagebox();
-        f.show("bye",customer.getCars(),container.getContext());
+        f.show("bye",customer.getFavorites(),container.getContext());
 
 
-        Button  button;
-        ArrayList<Button> buttons = new ArrayList<Button>();
+        final Button[] button = new Button[1];
+        final ArrayList<Button>[] buttons = new ArrayList[]{new ArrayList<Button>()};
         linearLayout=new LinearLayout(container.getContext());
         int i = 0;
         while(c.moveToNext()){
 
-            button=new Button(container.getContext());
-            buttons.add(button);
-            buttons.get(i).setText(c.getString(1));//String.valueOf(i));
+            button[0] =new Button(container.getContext());
+            buttons[0].add(button[0]);
+            buttons[0].get(i).setText(c.getString(1));//String.valueOf(i));
+            buttons[0].get(i).setTag(String.valueOf(i));
             if(i%4==0){
                 lol.addView(linearLayout);
                 linearLayout=new LinearLayout(container.getContext());
                 linearLayout.setOrientation(LinearLayout.HORIZONTAL);
 
             }
-            linearLayout.addView(buttons.get(i));
+            linearLayout.addView(buttons[0].get(i));
             i++;
 
 
@@ -80,12 +83,12 @@ public class CarMenuFragment extends Fragment {
         while ( c.moveToNext()) {
             str="Model: "+c.getString(1)+"\nMake: "+c.getString(0)+"\nYear: "+c.getString(2)+"\nPrice: "+c.getString(3)+"$\nDistance in Km: "+c.getString(4)+"\n"+ c.getString(5)+"\n"+c.getString(6)+"\n";
             final String finalStr = str;
-            buttons.get(i).setOnClickListener(new View.OnClickListener() {
+            root.findViewWithTag(String.valueOf(i)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    PopupMenu popupMenu = new PopupMenu(container.getContext(), v);
-                    MenuInflater menuInflater = getActivity().getMenuInflater();
-                    menuInflater.inflate(R.menu.popup_menu, popupMenu.getMenu());
+                    //PopupMenu popupMenu = new PopupMenu(container.getContext(), v);
+                    //MenuInflater menuInflater = getActivity().getMenuInflater();
+                    //menuInflater.inflate(R.menu.popup_menu, popupMenu.getMenu());
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     if (!firstFragment.isAdded()) {
                         firstFragment.setText(finalStr);
@@ -107,7 +110,9 @@ public class CarMenuFragment extends Fragment {
         while (c.moveToNext()){
             String message="Model: "+c.getString(1)+" Make: "+c.getString(0)+" Year: "+c.getString(2)+" Price: "+c.getString(3)+"$Distance in Km: "+c.getString(4)+" Accidents: "+ c.getString(5)+" Offers: "+c.getString(6)+"\n";
             final String finalMessage=message;
-            buttons.get(i).setOnLongClickListener(new View.OnLongClickListener(){
+            String message2=c.getString(1)+"#Model: "+c.getString(1)+" Make: "+c.getString(0)+" Year: "+c.getString(2)+" Price: "+c.getString(3)+"$Distance in Km: "+c.getString(4)+" Accidents: "+ c.getString(5)+" Offers: "+c.getString(6)+"\n";
+            final String finalMessage2=message2;
+            buttons[0].get(i).setOnLongClickListener(new View.OnLongClickListener(){
                 Messagebox m=new Messagebox();
                 @Override
                 public boolean onLongClick(View view) {
@@ -126,6 +131,24 @@ public class CarMenuFragment extends Fragment {
 
                                 return true;
                             }
+                            else if(id==R.id.favorite)
+                            {
+                                MenuItem fav=(MenuItem)root.findViewById(R.id.favorite);
+                                if (!customer.getFavorites().contains(finalMessage)){
+                                    DataBaseHelper dataBaseHelper=new DataBaseHelper(container.getContext(),"CUSTOMER",null,1);
+                                    customer.setFavorites(customer.getFavorites()+"\n"+finalMessage);
+                                    dataBaseHelper.updateCustomer(customer.getEmail(),customer);
+                                    Toast.makeText(container.getContext(), "Car added to favorites successfully",
+                                            Toast.LENGTH_SHORT).show();}
+                                else{
+                                    DataBaseHelper dataBaseHelper=new DataBaseHelper(container.getContext(),"CUSTOMER",null,1);
+                                    customer.setFavorites(customer.getFavorites().replace( "\n"+finalMessage,"") );
+                                    dataBaseHelper.updateCustomer(customer.getEmail(),customer);
+                                    Toast.makeText(container.getContext(), "Car removed from favorites successfully",Toast.LENGTH_SHORT).show();
+                                }
+
+                                return true;
+                            }
                             return true;
                         }
                     });
@@ -138,6 +161,58 @@ public class CarMenuFragment extends Fragment {
 
             i++;
         }
+        SearchView search=(SearchView) root.findViewById(R.id.search);
+        //c=dataBaseHelper.getAllCars();
+        final Cursor finalC = c;
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                //Toast.makeText(container.getContext(), query,Toast.LENGTH_LONG).show();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                //Toast.makeText(container.getContext(), newText,Toast.LENGTH_LONG).show();
+                //lol.removeAllViews();
+                //buttons[0].clear();
+                ///linearLayout=new LinearLayout(container.getContext());
+                int i = 0;
+                finalC.moveToFirst();
+                RadioButton name= (RadioButton) root.findViewById(R.id.name);
+                RadioButton model= (RadioButton) root.findViewById(R.id.model);
+                RadioButton price= (RadioButton) root.findViewById(R.id.price);
+                do {
+                    if(price.isChecked())
+                    {
+                        if (!finalC.getString(4).equals(newText) && buttons[0].get(i).getVisibility()==View.VISIBLE)
+                            buttons[0].get(i).setVisibility(View.INVISIBLE);
+                        else if(finalC.getString(4).equals(newText) && buttons[0].get(i).getVisibility()==View.INVISIBLE)
+                            buttons[0].get(i).setVisibility(View.VISIBLE);
+                    }
+                    else if(model.isChecked())
+                    {
+                        if (!finalC.getString(0).toLowerCase().contains(newText.toLowerCase()) && buttons[0].get(i).getVisibility()==View.VISIBLE)
+                            buttons[0].get(i).setVisibility(View.INVISIBLE);
+                        else if(finalC.getString(0).toLowerCase().contains(newText.toLowerCase()) && buttons[0].get(i).getVisibility()==View.INVISIBLE)
+                            buttons[0].get(i).setVisibility(View.VISIBLE);
+                    }
+                    else if(name.isChecked())
+                    {
+                        if (!(finalC.getString(1)+" "+finalC.getString(0)).toLowerCase().contains(newText.toLowerCase()) && buttons[0].get(i).getVisibility()==View.VISIBLE)
+                            buttons[0].get(i).setVisibility(View.INVISIBLE);
+                        else if((finalC.getString(1)+" "+finalC.getString(0)).toLowerCase().contains(newText.toLowerCase())&& buttons[0].get(i).getVisibility()==View.INVISIBLE)
+                            buttons[0].get(i).setVisibility(View.VISIBLE);
+                    }
+                    i++;
+
+
+                }while(finalC.moveToNext());
+                return false;
+            }
+        });
+
         return root;
 
     }

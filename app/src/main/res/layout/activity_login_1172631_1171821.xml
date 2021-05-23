@@ -28,7 +28,7 @@
         <EditText
             android:id="@+id/email"
             android:layout_width="wrap_content"
-            android:layout_height="32dp"
+            android:layout_height="87dp"
             android:layout_weight="1"
             android:ems="10"
             android:hint="Enter Email here"
@@ -62,13 +62,14 @@
     <RadioButton
         android:id="@+id/save"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
+        android:checked="true"
         android:text="Remember Login?" />
 
     <Button
         android:id="@+id/signIn"
         android:layout_width="108dp"
-        android:layout_height="wrap_content"
+        android:layout_height="59dp"
         android:text="Sign In" />
 
     <TextView
@@ -80,7 +81,7 @@
     <Button
         android:id="@+id/signUp"
         android:layout_width="106dp"
-        android:layout_height="wrap_content"
+        android:layout_height="63dp"
         android:text="Sign Up" />
 
 </LinearLayout>

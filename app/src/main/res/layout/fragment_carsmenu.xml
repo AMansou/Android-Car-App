@@ -2,13 +2,56 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/lol"
+    android:id="@+id/upper"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.gallery.CarMenuFragment" >
 
     <SearchView
+        android:id="@+id/search"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:queryHint="Search here">
+
+    </SearchView>
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checkedButton="@id/name"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/price"
+            android:layout_width="123dp"
+            android:layout_height="wrap_content"
+            android:text="Search Price" />
+
+        <RadioButton
+            android:id="@+id/model"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:text="Search Model" />
+
+        <RadioButton
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Search Name" />
+    </RadioGroup>
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider" />
+
+    <LinearLayout
+        android:id="@+id/lol"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"></LinearLayout>
+
 </LinearLayout>

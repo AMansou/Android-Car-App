@@ -23,7 +23,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("CREATE TABLE CUSTOMER(EMAIL TEXT PRIMARY KEY,FIRSTNAME TEXT," +
                 "LASTNAME TEXT, PHONE TEXT, PASSWORD TEXT, GENDER TEXT, COUNTRY TEXT, CITY TEXT," +
-                "ISADMIN BOOLEAN, CARS TEXT)") ;
+                "ISADMIN BOOLEAN, CARS TEXT,FAVORITES TEXT)") ;
         sqLiteDatabase.execSQL("CREATE TABLE CARS(MODEL TEXT PRIMARY KEY, MAKE TEXT , YEAR TEXT" +
                 ", PRICE INT, DISTANCE INT, ACCIDENTS BOOLEAN, OFFERS BOOLEAN)");
     }
@@ -40,6 +40,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         contentValues.put("CITY", customer.getCity());
         contentValues.put("ISADMIN", customer.isAdmin());
         contentValues.put("CARS",customer.getCars());
+        contentValues.put("FAVORITES",customer.getFavorites());
         sqLiteDatabase.insert("CUSTOMER", null, contentValues);
     }
     public void updateCustomer(String email, Customer c){

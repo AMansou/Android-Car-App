@@ -10,7 +10,7 @@
 
     <item
         android:id="@+id/favorite"
-        android:title="Add to Favorites"/>
+        android:title="Add/Remove to Favorites" />
 
 
 </menu>
