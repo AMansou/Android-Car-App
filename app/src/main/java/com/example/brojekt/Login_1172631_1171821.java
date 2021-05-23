@@ -81,9 +81,6 @@ public class Login_1172631_1171821 extends AppCompatActivity {
             public void onClick(View view) {
                 DataBaseHelper dataBaseHelper =new DataBaseHelper(Login_1172631_1171821.this,"CUSTOMER",null,1);
                 Cursor allCustomersCursor = dataBaseHelper.getAllCustomers();
-                //Messagebox m=new Messagebox();
-                //allCustomersCursor.moveToFirst();
-                //m.show("hello", String.valueOf(allCustomersCursor.getCount()), Login_1172631_1171821.this);
                 while (allCustomersCursor.moveToNext()){
 
                     if(email.getText().toString().equals(allCustomersCursor.getString(0)) &&
@@ -147,5 +144,4 @@ public class Login_1172631_1171821 extends AppCompatActivity {
         });
 
     }
-
 }

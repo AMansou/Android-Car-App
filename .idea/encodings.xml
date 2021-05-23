@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
-    <file url="file://$USER_HOME$/Documents/AndroidStudio/DeviceExplorer/Pixel_3a_XL_API_26_2 [emulator-5554]/data/data/com.example.brojekt/databases/CUSTOMER" charset="UTF-16" />
+    <file url="file://$USER_HOME$/Documents/AndroidStudio/DeviceExplorer/emulator-5554/data/data/com.example.brojekt/databases/CARS" charset="GB18030" />
+    <file url="file://$USER_HOME$/Documents/AndroidStudio/DeviceExplorer/emulator-5554/data/data/com.example.brojekt/databases/CUSTOMER" charset="GB18030" />
   </component>
 </project>
