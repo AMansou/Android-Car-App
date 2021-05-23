@@ -1,4 +1,4 @@
-package com.example.brojekt.ui.gallery;
+package com.example.brojekt.ui.favorites;
 
 import android.app.Activity;
 import android.database.Cursor;
@@ -24,6 +24,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.brojekt.CarFrag;
+import com.example.brojekt.Customer;
 import com.example.brojekt.DataBaseHelper;
 import com.example.brojekt.Messagebox;
 import com.example.brojekt.R;
@@ -32,11 +33,12 @@ import com.example.brojekt.SignUp_1172631_1171821;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 import static com.example.brojekt.Login_1172631_1171821.customer;
 
-public class CarMenuFragment extends Fragment {
+public class FavoritesFragment extends Fragment {
 
     TextView cText;
     private FragmentActivity myContext;
@@ -44,25 +46,25 @@ public class CarMenuFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View root=inflater.inflate(R.layout.fragment_carsmenu,container,false);
+        final View root=inflater.inflate(R.layout.fragment_favorites,container,false);
         final LinearLayout lol=(LinearLayout) root.findViewById(R.id.lol);
         final Button addButton =new Button(container.getContext());
+        //lol.addView(addButton);
         final DataBaseHelper dataBaseHelper =new DataBaseHelper(container.getContext(),"CARS",null,1);
         Cursor c=dataBaseHelper.getAllCars();
         /****************************************************************/
-        Messagebox f=new Messagebox();
-        f.show("bye",customer.getCars(),container.getContext());
-
+        final String[] splitString = customer.getFavorites().split("%");
 
         final Button[] button = new Button[1];
         final ArrayList<Button>[] buttons = new ArrayList[]{new ArrayList<Button>()};
         linearLayout=new LinearLayout(container.getContext());
+        //String[] splitString = Arrays.copyOfRange(split, 1, split.length);
         int i = 0;
-        while(c.moveToNext()){
+        for(i=0;i<splitString.length;i++){
 
             button[0] =new Button(container.getContext());
             buttons[0].add(button[0]);
-            buttons[0].get(i).setText(c.getString(1));//String.valueOf(i));
+            buttons[0].get(i).setText(splitString[i].split("#")[0]);//String.valueOf(i));
             buttons[0].get(i).setTag(String.valueOf(i));
             if(i%4==0){
                 lol.addView(linearLayout);
@@ -71,19 +73,23 @@ public class CarMenuFragment extends Fragment {
 
             }
             linearLayout.addView(buttons[0].get(i));
-            i++;
 
 
         }
-        if(i%4!=0)
+        //if(i%4!=0)
             lol.addView(linearLayout);
+        Messagebox f=new Messagebox();
+        f.show("bye", String.valueOf(splitString.length),container.getContext());
+
         final FragmentManager fragmentManager = myContext.getSupportFragmentManager();
         String str;
         final CarFrag firstFragment = new CarFrag();
         c=dataBaseHelper.getAllCars();
-        i=0;
-        while ( c.moveToNext()) {
-            str="Model: "+c.getString(1)+"\nMake: "+c.getString(0)+"\nYear: "+c.getString(2)+"\nPrice: "+c.getString(3)+"$\nDistance in Km: "+c.getString(4)+"\n"+ c.getString(5)+"\n"+c.getString(6)+"\n";
+        //i=0;
+        for (i=0;i<splitString.length;i++ ) {
+            str="Model: "+splitString[i].split("#")[0]+"\nMake: " +
+                    ""+splitString[i].split("#")[1]+"\nYear: "+splitString[i].split("#")[2]+"\nPrice: "+splitString[i].split("#")[3]+"$\nDistance in Km: "+splitString[i].split("#")[4]+"\nAccidents: "+ splitString[i].split("#")[5]+"\nOffers:"+splitString[i].split("#")[6]+"\n";
+            //str=splitString[i].split("#")[1];
             final String finalStr = str;
             root.findViewWithTag(String.valueOf(i)).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -105,14 +111,17 @@ public class CarMenuFragment extends Fragment {
                     }
                 }
             });
-            i++;
         }
+
         c=dataBaseHelper.getAllCars();
         i=0;
-        while (c.moveToNext()){
-            String message="Model: "+c.getString(1)+" Make: "+c.getString(0)+" Year: "+c.getString(2)+" Price: "+c.getString(3)+"$ Distance in Km: "+c.getString(4)+" Accidents: "+ c.getString(5)+" Offers: "+c.getString(6)+"\n";
+        for (i=0;i<splitString.length;i++ ){
+            String message="Model: "+splitString[i].split("#")[0]+" Make: " +
+                                ""+splitString[i].split("#")[1]+" Year: "+splitString[i].split("#")[2]+" Price: "+splitString[i].split("#")[3]+"$ Distance in Km: "+splitString[i].split("#")[4]+" Accidents: "+ splitString[i].split("#")[5]+" Offers: "+splitString[i].split("#")[6]+"\n";
+            //String message=splitString[i].split("#")[1];
             final String finalMessage=message;
-            String message2=c.getString(1)+"#"+c.getString(0)+"#"+c.getString(2)+"#"+c.getString(3)+"#"+c.getString(4)+"#"+ c.getString(5)+"#"+c.getString(6)+"%";
+            String message2=splitString[i].split("#")[0]+"#"+splitString[i].split("#")[1]+"#"+splitString[i].split("#")[2]+"#"+splitString[i].split("#")[3]+"#"+splitString[i].split("#")[4]+"#"+ splitString[i].split("#")[5]+"#"+splitString[i].split("#")[6]+"%";
+            //String message2="#"+splitString[i].split("#")[1];
             final String finalMessage2=message2;
             buttons[0].get(i).setOnLongClickListener(new View.OnLongClickListener(){
                 Messagebox m=new Messagebox();
@@ -120,40 +129,22 @@ public class CarMenuFragment extends Fragment {
                 public boolean onLongClick(View view) {
                     final PopupMenu popupMenu = new PopupMenu(container.getContext(), view);
                     MenuInflater menuInflater = getActivity().getMenuInflater();
-                    menuInflater.inflate(R.menu.popup_menu, popupMenu.getMenu());
+                    menuInflater.inflate(R.menu.popup2, popupMenu.getMenu());
                     popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 
                         @Override
                         public boolean onMenuItemClick(MenuItem item){
 
                             int id = item.getItemId();
-                            if(id == R.id.reserve) {
+                            if(id == R.id.reserve2) {
                                 if (!customer.getCars().contains(finalMessage))
-                                m.show("hello",finalMessage, container.getContext());
+                                    m.show("hello",finalMessage, container.getContext());
                                 else
                                     m.show2("hello",finalMessage,container.getContext());
 
                                 return true;
                             }
-                            else if(id==R.id.favorite)
-                            {
-                                MenuItem fav=(MenuItem)root.findViewById(R.id.favorite);
-                                if (!customer.getFavorites().contains(finalMessage2)){
-                                    DataBaseHelper dataBaseHelper=new DataBaseHelper(container.getContext(),"CUSTOMER",null,1);
-                                    customer.setFavorites(customer.getFavorites()+"\n"+finalMessage2);
-                                    dataBaseHelper.updateCustomer(customer.getEmail(),customer);
-                                    Toast.makeText(container.getContext(), "Car added to favorites successfully",
-                                            Toast.LENGTH_SHORT).show();}
-                                else{
-                                    DataBaseHelper dataBaseHelper=new DataBaseHelper(container.getContext(),"CUSTOMER",null,1);
-                                    customer.setFavorites(customer.getFavorites().replace( "\n"+finalMessage2,"") );
-                                    //customer.setFavorites("");
-                                    dataBaseHelper.updateCustomer(customer.getEmail(),customer);
-                                    Toast.makeText(container.getContext(), "Car removed from favorites successfully",Toast.LENGTH_SHORT).show();
-                                }
 
-                                return true;
-                            }
                             return true;
                         }
                     });
@@ -164,8 +155,9 @@ public class CarMenuFragment extends Fragment {
                 }
             });
 
-            i++;
+
         }
+
         SearchView search=(SearchView) root.findViewById(R.id.search);
         //c=dataBaseHelper.getAllCars();
         final Cursor finalC = c;
@@ -188,36 +180,36 @@ public class CarMenuFragment extends Fragment {
                 RadioButton name= (RadioButton) root.findViewById(R.id.name);
                 RadioButton model= (RadioButton) root.findViewById(R.id.model);
                 RadioButton price= (RadioButton) root.findViewById(R.id.price);
-                do {
+                for(i=0;i<splitString.length;i++) {
                     if(price.isChecked())
                     {
-                        if (!finalC.getString(4).equals(newText) && buttons[0].get(i).getVisibility()==View.VISIBLE)
+                        String s= splitString[i].split("#")[1];
+                        if (!splitString[i].split("#")[3].equals(newText) && buttons[0].get(i).getVisibility()==View.VISIBLE)
                             buttons[0].get(i).setVisibility(View.INVISIBLE);
-                        else if(finalC.getString(4).equals(newText) && buttons[0].get(i).getVisibility()==View.INVISIBLE)
+                        else if(splitString[i].split("#")[3].equals(newText) && buttons[0].get(i).getVisibility()==View.INVISIBLE)
                             buttons[0].get(i).setVisibility(View.VISIBLE);
                     }
                     else if(model.isChecked())
                     {
-                        if (!finalC.getString(0).toLowerCase().contains(newText.toLowerCase()) && buttons[0].get(i).getVisibility()==View.VISIBLE)
+                        if (!splitString[i].split("#")[1].toLowerCase().contains(newText.toLowerCase()) && buttons[0].get(i).getVisibility()==View.VISIBLE)
                             buttons[0].get(i).setVisibility(View.INVISIBLE);
-                        else if(finalC.getString(0).toLowerCase().contains(newText.toLowerCase()) && buttons[0].get(i).getVisibility()==View.INVISIBLE)
+                        else if(splitString[i].split("#")[1].toLowerCase().contains(newText.toLowerCase()) && buttons[0].get(i).getVisibility()==View.INVISIBLE)
                             buttons[0].get(i).setVisibility(View.VISIBLE);
                     }
                     else if(name.isChecked())
                     {
-                        if (!(finalC.getString(1)+" "+finalC.getString(0)).toLowerCase().contains(newText.toLowerCase()) && buttons[0].get(i).getVisibility()==View.VISIBLE)
+                        if (!(splitString[i].split("#")[0]+" "+splitString[i].split("#")[1]).toLowerCase().contains(newText.toLowerCase()) && buttons[0].get(i).getVisibility()==View.VISIBLE)
                             buttons[0].get(i).setVisibility(View.INVISIBLE);
-                        else if((finalC.getString(1)+" "+finalC.getString(0)).toLowerCase().contains(newText.toLowerCase())&& buttons[0].get(i).getVisibility()==View.INVISIBLE)
+                        else if((splitString[i].split("#")[0]+" "+splitString[i].split("#")[1]).toLowerCase().contains(newText.toLowerCase()) && buttons[0].get(i).getVisibility()==View.INVISIBLE)
                             buttons[0].get(i).setVisibility(View.VISIBLE);
                     }
-                    i++;
 
 
-                }while(finalC.moveToNext());
+
+                }
                 return false;
             }
         });
-
         return root;
 
     }

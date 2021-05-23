@@ -14,6 +14,8 @@
     <string name="menu_home">Delete User</string>
     <string name="menu_gallery">Add Admin</string>
     <string name="menu_slideshow">Car Reserves</string>
+    <string name="menu_favorites">Favorites</string>
+    <string name="menu_profile">Profile</string>
     <string name="menu_logout">logout</string>
     <string name="title_activity_admin_login1172631_1171821">AdminLogin1172631_1171821</string>
     <string name="title_activity_admin_page_1172631_1171821">adminPage_1172631_1171821</string>
