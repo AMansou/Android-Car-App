@@ -25,7 +25,7 @@ public class Messagebox
                         DataBaseHelper dataBaseHelper=new DataBaseHelper(context,"CUSTOMER",null,1);
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
                         String currentDateandTime = sdf.format(new Date());
-                        customer.setCars(customer.getCars()+"\n"+message+" Date and Time: "+currentDateandTime+"\n");
+                        customer.setCars(customer.getCars()+message+" Date and Time: "+currentDateandTime+"%");
                         dataBaseHelper.updateCustomer(customer.getEmail(),customer);
                     }
                 })
