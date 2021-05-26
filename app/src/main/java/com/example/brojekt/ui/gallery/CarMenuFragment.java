@@ -20,16 +20,20 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.brojekt.CarFrag;
+import com.example.brojekt.CarFrag2;
 import com.example.brojekt.DataBaseHelper;
 import com.example.brojekt.Messagebox;
 import com.example.brojekt.R;
 import com.example.brojekt.SignUp_1172631_1171821;
+import com.google.android.material.navigation.NavigationView;
 
 
 import java.text.SimpleDateFormat;
@@ -80,13 +84,17 @@ public class CarMenuFragment extends Fragment {
         scroll.addView(linearLayout);
         lol.addView(scroll);
         final FragmentManager fragmentManager = myContext.getSupportFragmentManager();
+
         String str;
         final CarFrag firstFragment = new CarFrag();
+        final CarFrag2 secondFragment = new CarFrag2();
         c=dataBaseHelper.getAllCars();
         i=0;
+        final String[] tag = {""};
         while ( c.moveToNext()) {
             str="Model: "+c.getString(1)+"\nMake: "+c.getString(0)+"\nYear: "+c.getString(2)+"\nPrice: "+c.getString(3)+"$\nDistance in Km: "+c.getString(4)+"\nAccidents: "+Boolean.parseBoolean( c.getString(5))+"\nOffers: "+Boolean.parseBoolean(c.getString(6))+"\n";
             final String finalStr = str;
+            final int finalI = i;
             root.findViewWithTag(String.valueOf(i)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -94,22 +102,70 @@ public class CarMenuFragment extends Fragment {
                     //MenuInflater menuInflater = getActivity().getMenuInflater();
                     //menuInflater.inflate(R.menu.popup_menu, popupMenu.getMenu());
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    if (!firstFragment.isAdded()) {
+                    if (!firstFragment.isAdded() &&!secondFragment.isAdded()) {
+
+
                         firstFragment.setText(finalStr);
                         fragmentTransaction.add(R.id.drawer_layout, firstFragment, "CarFrag");
                         fragmentTransaction.commit();
+                        tag[0]=String.valueOf(finalI);
 
                     }
-                    else
+                    else if(!firstFragment.isAdded())
                     {
-                        fragmentTransaction.remove( firstFragment);
-                        fragmentTransaction.commit();
+                        if(tag[0].equals(String.valueOf(finalI))){
+                            fragmentTransaction.remove( secondFragment);
+                            fragmentTransaction.commit();
+                            tag[0]="";
+                        }
+                        else {
+                            firstFragment.setText(finalStr);
+                            fragmentTransaction.replace(R.id.drawer_layout, firstFragment);
+                            fragmentTransaction.commit();
+                            tag[0]=String.valueOf(finalI);
+                        }
+                    }
+                    else if(!secondFragment.isAdded())
+                    {
+                        if(tag[0].equals(String.valueOf(finalI))){
+                            fragmentTransaction.remove( firstFragment);
+                            fragmentTransaction.commit();
+                            tag[0]="";
+
+                        }
+                        else {
+                            secondFragment.setText(finalStr);
+                            fragmentTransaction.replace(R.id.drawer_layout, secondFragment);
+                            fragmentTransaction.commit();
+                            tag[0] =String.valueOf(finalI);
+                            //Toast.makeText(container.getContext(), String.valueOf(finalI),Toast.LENGTH_SHORT).show();
+
+                        }
                     }
                 }
             });
             i++;
         }
-        c=dataBaseHelper.getAllCars();
+
+        LinearLayout l=(LinearLayout) root.findViewById(R.id.upper);
+        //l.OnTouchOutsideViewListener
+        l.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                if (secondFragment.isAdded()) {
+                    fragmentTransaction.remove( secondFragment);
+                    fragmentTransaction.commit();
+
+                }
+                else if(firstFragment.isAdded() ){
+                    fragmentTransaction.remove( firstFragment);
+                    fragmentTransaction.commit();
+                }
+            }
+        });
+
+                c = dataBaseHelper.getAllCars();
         i=0;
         while (c.moveToNext()){
             String message="Model: "+c.getString(1)+" Make: "+c.getString(0)+" Year: "+c.getString(2)+" Price: "+c.getString(3)+"$ Distance in Km: "+c.getString(4)+" Accidents: "+ c.getString(5)+" Offers: "+c.getString(6)+"\n";
@@ -228,6 +284,7 @@ public class CarMenuFragment extends Fragment {
         myContext=(FragmentActivity) activity;
         super.onAttach(activity);
     }
+
 
 
 }
