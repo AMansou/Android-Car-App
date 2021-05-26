@@ -3,6 +3,7 @@ package com.example.brojekt.ui.favorites;
 import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.RadioButton;
+import android.widget.ScrollView;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,31 +58,30 @@ public class FavoritesFragment extends Fragment {
         if (customer.getFavorites().isEmpty())
             return root;
         final String[] splitString = customer.getFavorites().split("%");
-
+        ScrollView scroll = new ScrollView(container.getContext());
+        int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, getResources().getDisplayMetrics());
+        int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, getResources().getDisplayMetrics());
 
         final Button[] button = new Button[1];
         final ArrayList<Button>[] buttons = new ArrayList[]{new ArrayList<Button>()};
         linearLayout=new LinearLayout(container.getContext());
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
         //String[] splitString = Arrays.copyOfRange(split, 1, split.length);
         int i = 0;
         for(i=0;i<splitString.length;i++){
 
             button[0] =new Button(container.getContext());
             buttons[0].add(button[0]);
-            buttons[0].get(i).setText(splitString[i].split("#")[0]);//String.valueOf(i));
+            buttons[0].get(i).setText(splitString[i].split("#")[0]+" "+splitString[i].split("#")[1]);//String.valueOf(i));
             buttons[0].get(i).setTag(String.valueOf(i));
-            if(i%4==0){
-                lol.addView(linearLayout);
-                linearLayout=new LinearLayout(container.getContext());
-                linearLayout.setOrientation(LinearLayout.HORIZONTAL);
-
-            }
             linearLayout.addView(buttons[0].get(i));
-
+            buttons[0].get(i).setLayoutParams(new LinearLayout.LayoutParams(width,height));
 
         }
         //if(i%4!=0)
-            lol.addView(linearLayout);
+        final TextView t=new TextView(container.getContext());
+        scroll.addView(linearLayout);
+            lol.addView(scroll);
        // Messagebox f=new Messagebox();
         //f.show("bye", String.valueOf(splitString.length),container.getContext());
 
@@ -90,7 +91,7 @@ public class FavoritesFragment extends Fragment {
         c=dataBaseHelper.getAllCars();
         //i=0;
         for (i=0;i<splitString.length;i++ ) {
-            str="Model: "+splitString[i].split("#")[0]+"\nMake: " +
+            str="Make: "+splitString[i].split("#")[0]+"\nModel: " +
                     ""+splitString[i].split("#")[1]+"\nYear: "+splitString[i].split("#")[2]+"\nPrice: "+splitString[i].split("#")[3]+"$\nDistance in Km: "+splitString[i].split("#")[4]+"\nAccidents: "+ splitString[i].split("#")[5]+"\nOffers:"+splitString[i].split("#")[6]+"\n";
             //str=splitString[i].split("#")[1];
             final String finalStr = str;
@@ -100,7 +101,7 @@ public class FavoritesFragment extends Fragment {
                     //PopupMenu popupMenu = new PopupMenu(container.getContext(), v);
                     //MenuInflater menuInflater = getActivity().getMenuInflater();
                     //menuInflater.inflate(R.menu.popup_menu, popupMenu.getMenu());
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                   /* FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     if (!firstFragment.isAdded()) {
                         firstFragment.setText(finalStr);
                         fragmentTransaction.add(R.id.drawer_layout, firstFragment, "CarFrag");
@@ -111,6 +112,15 @@ public class FavoritesFragment extends Fragment {
                     {
                         fragmentTransaction.remove( firstFragment);
                         fragmentTransaction.commit();
+                    }*/
+                    if(lol.getChildCount()>1) {
+                        lol.removeView(t);
+                        t.setText(finalStr);
+                        lol.addView(t);
+                    }
+                    else{
+                        t.setText(finalStr);
+                        lol.addView(t);
                     }
                 }
             });

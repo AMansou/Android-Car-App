@@ -1,4 +1,4 @@
-package com.example.brojekt.ui.gallery;
+package com.example.brojekt.ui.special;
 
 import android.app.Activity;
 import android.database.Cursor;
@@ -44,7 +44,7 @@ import java.util.Date;
 
 import static com.example.brojekt.Login_1172631_1171821.customer;
 
-public class CarMenuFragment extends Fragment {
+public class SpecialFragment extends Fragment {
     FragmentManager fragmentManager;
 
     String str;
@@ -57,7 +57,7 @@ public class CarMenuFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View root=inflater.inflate(R.layout.fragment_carsmenu,container,false);
+        final View root=inflater.inflate(R.layout.fragment_special,container,false);
         final LinearLayout lol=(LinearLayout) root.findViewById(R.id.lol);
         final Button addButton =new Button(container.getContext());
         final DataBaseHelper dataBaseHelper =new DataBaseHelper(container.getContext(),"CARS",null,1);
@@ -76,7 +76,8 @@ public class CarMenuFragment extends Fragment {
         int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, getResources().getDisplayMetrics());
         int i = 0;
         while(c.moveToNext()){
-
+            if(c.getString(6).equals("0"))
+                continue;
             button[0] =new Button(container.getContext());
             buttons[0].add(button[0]);
             buttons[0].get(i).setText(c.getString(1)+" "+ c.getString(0));//String.valueOf(i));
@@ -87,6 +88,8 @@ public class CarMenuFragment extends Fragment {
 
 
         }
+        if (i==0)
+            return root;
         final TextView t=new TextView(container.getContext());
         scroll.addView(linearLayout);
         lol.addView(scroll);
@@ -95,7 +98,9 @@ public class CarMenuFragment extends Fragment {
         i=0;
         final String[] tag = {""};
         while ( c.moveToNext()) {
-            str="Make: "+c.getString(1)+"\nModel: "+c.getString(0)+"\nYear: "+c.getString(2)+"\nPrice: "+c.getString(3)+"$\nDistance in Km: "+c.getString(4)+"\nAccidents: "+ c.getString(5)+"\nOffers: "+c.getString(6)+"\n";
+            if(c.getString(6).equals("0"))
+                continue;
+            str="Make: "+c.getString(1)+"\nModel: "+c.getString(0)+"\nYear: "+c.getString(2)+"\nPrice: "+c.getString(3)+"$\nDistance in Km: "+c.getString(4)+"\nAccidents: "+c.getString(5)+"\nOffers: "+c.getString(6)+"\n";
             final String finalStr = str;
             final int finalI = i;
             root.findViewWithTag(String.valueOf(i)).setOnClickListener(new View.OnClickListener() {
@@ -181,9 +186,11 @@ public class CarMenuFragment extends Fragment {
             }
         });
 
-                c = dataBaseHelper.getAllCars();
+        c = dataBaseHelper.getAllCars();
         i=0;
         while (c.moveToNext()){
+            if(c.getString(6).equals("0"))
+                continue;
             String message="Model: "+c.getString(1)+" Make: "+c.getString(0)+" Year: "+c.getString(2)+" Price: "+c.getString(3)+"$ Distance in Km: "+c.getString(4)+" Accidents: "+ c.getString(5)+" Offers: "+c.getString(6)+"\n";
             final String finalMessage=message;
             String message2=c.getString(1)+"#"+c.getString(0)+"#"+c.getString(2)+"#"+c.getString(3)+"#"+c.getString(4)+"#"+ c.getString(5)+"#"+c.getString(6)+"%";
@@ -203,7 +210,7 @@ public class CarMenuFragment extends Fragment {
                             int id = item.getItemId();
                             if(id == R.id.reserve) {
                                 if (!customer.getCars().contains(finalMessage))
-                                m.show("hello",finalMessage, container.getContext());
+                                    m.show("hello",finalMessage, container.getContext());
                                 else
                                     m.show2("hello",finalMessage,container.getContext());
 
@@ -263,6 +270,8 @@ public class CarMenuFragment extends Fragment {
                 RadioButton model= (RadioButton) root.findViewById(R.id.model);
                 RadioButton price= (RadioButton) root.findViewById(R.id.price);
                 do {
+                    if(finalC.getString(6).equals("0"))
+                        continue;
                     if(price.isChecked())
                     {
                         if (!finalC.getString(4).equals(newText) && buttons[0].get(i).getVisibility()==View.VISIBLE)

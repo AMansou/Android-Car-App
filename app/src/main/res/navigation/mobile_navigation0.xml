@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/nav_home"
         android:name="com.example.brojekt.ui.home.HistoryFragment"
-        android:label="@string/menu_home"
+        android:label="About Us"
         tools:layout="@layout/fragment_history">
 
         <action
@@ -20,13 +20,13 @@
     <fragment
         android:id="@+id/nav_gallery"
         android:name="com.example.brojekt.ui.gallery.CarMenuFragment"
-        android:label="@string/menu_gallery"
+        android:label="Car Menu"
         tools:layout="@layout/fragment_carsmenu" />
 
     <fragment
         android:id="@+id/nav_slideshow"
         android:name="com.example.brojekt.ui.slideshow.ReservationFragment"
-        android:label="@string/menu_slideshow"
+        android:label="Car Reservations"
         tools:layout="@layout/fragment_reservation" />
     <fragment
         android:id="@+id/nav_favorites"
@@ -38,6 +38,11 @@
         android:name="com.example.brojekt.ui.profile.ProfileFragment"
         android:label="@string/menu_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/nav_special"
+        android:name="com.example.brojekt.ui.special.SpecialFragment"
+        android:label="@string/menu_special"
+        tools:layout="@layout/fragment_special" />
     <fragment
         android:id="@+id/nav_logout_customer"
         android:name="com.example.brojekt.ui.logout.LogoutFragment"
