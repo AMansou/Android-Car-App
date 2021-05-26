@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,6 +30,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.brojekt.CarFrag;
 import com.example.brojekt.CarFrag2;
+import com.example.brojekt.CustomerHome_1172631_1171821;
 import com.example.brojekt.DataBaseHelper;
 import com.example.brojekt.Messagebox;
 import com.example.brojekt.R;
@@ -43,7 +45,11 @@ import java.util.Date;
 import static com.example.brojekt.Login_1172631_1171821.customer;
 
 public class CarMenuFragment extends Fragment {
+    FragmentManager fragmentManager;
 
+    String str;
+    final CarFrag firstFragment = new CarFrag();
+    final CarFrag2 secondFragment = new CarFrag2();
     TextView cText;
     private FragmentActivity myContext;
     LinearLayout linearLayout;
@@ -81,13 +87,10 @@ public class CarMenuFragment extends Fragment {
 
 
         }
+        final TextView t=new TextView(container.getContext());
         scroll.addView(linearLayout);
         lol.addView(scroll);
-        final FragmentManager fragmentManager = myContext.getSupportFragmentManager();
-
-        String str;
-        final CarFrag firstFragment = new CarFrag();
-        final CarFrag2 secondFragment = new CarFrag2();
+        fragmentManager = myContext.getSupportFragmentManager();
         c=dataBaseHelper.getAllCars();
         i=0;
         final String[] tag = {""};
@@ -101,7 +104,7 @@ public class CarMenuFragment extends Fragment {
                     //PopupMenu popupMenu = new PopupMenu(container.getContext(), v);
                     //MenuInflater menuInflater = getActivity().getMenuInflater();
                     //menuInflater.inflate(R.menu.popup_menu, popupMenu.getMenu());
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    /*FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     if (!firstFragment.isAdded() &&!secondFragment.isAdded()) {
 
 
@@ -117,8 +120,10 @@ public class CarMenuFragment extends Fragment {
                             fragmentTransaction.remove( secondFragment);
                             fragmentTransaction.commit();
                             tag[0]="";
+                            CustomerHome_1172631_1171821.flag=false;
                         }
                         else {
+                            CustomerHome_1172631_1171821.flag=true;
                             firstFragment.setText(finalStr);
                             fragmentTransaction.replace(R.id.drawer_layout, firstFragment);
                             fragmentTransaction.commit();
@@ -128,6 +133,7 @@ public class CarMenuFragment extends Fragment {
                     else if(!secondFragment.isAdded())
                     {
                         if(tag[0].equals(String.valueOf(finalI))){
+                            CustomerHome_1172631_1171821.flag=false;
                             fragmentTransaction.remove( firstFragment);
                             fragmentTransaction.commit();
                             tag[0]="";
@@ -138,9 +144,19 @@ public class CarMenuFragment extends Fragment {
                             fragmentTransaction.replace(R.id.drawer_layout, secondFragment);
                             fragmentTransaction.commit();
                             tag[0] =String.valueOf(finalI);
+                            CustomerHome_1172631_1171821.flag=true;
                             //Toast.makeText(container.getContext(), String.valueOf(finalI),Toast.LENGTH_SHORT).show();
 
                         }
+                    }*/
+                    if(lol.getChildCount()>1) {
+                        lol.removeView(t);
+                        t.setText(finalStr);
+                        lol.addView(t);
+                    }
+                    else{
+                        t.setText(finalStr);
+                        lol.addView(t);
                     }
                 }
             });
@@ -284,6 +300,9 @@ public class CarMenuFragment extends Fragment {
         myContext=(FragmentActivity) activity;
         super.onAttach(activity);
     }
+
+
+
 
 
 
