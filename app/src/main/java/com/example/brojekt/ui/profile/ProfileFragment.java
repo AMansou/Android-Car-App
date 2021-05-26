@@ -2,7 +2,10 @@ package com.example.brojekt.ui.profile;
 
 import android.database.Cursor;
 import android.os.Bundle;
+import android.telephony.PhoneNumberFormattingTextWatcher;
+import android.text.InputType;
 import android.text.Layout;
+import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,10 +71,43 @@ public class ProfileFragment extends Fragment {
         /*****************************New Edit Texts**************************************************************/
         final EditText newEmail=new EditText(container.getContext());
         newEmail.setHint("Please enter new Email");
+
+        final EditText newFname=new EditText(container.getContext());
+        newFname.setHint("Please Enter New First Name");
+
+        final EditText newLname=new EditText(container.getContext());
+        newLname.setHint("Please Enter New Last Name");
+
+        final EditText newVPass=new EditText(container.getContext());
+        newVPass.setHint("Please Enter New Password");
+        newVPass.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        newVPass.setTransformationMethod(PasswordTransformationMethod.getInstance());
+
+        final EditText newHPass=new EditText(container.getContext());
+        newHPass.setHint("Please Confirm New Password");
+        newHPass.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        newHPass.setTransformationMethod(PasswordTransformationMethod.getInstance());
+
+        final EditText newPhone=new EditText(container.getContext());
+        newPhone.setHint("Please Enter New Phone Number");
+        newPhone.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+
         /**************************************New Buttons******************************************************/
         final Button saveEmail=new Button(container.getContext());
-        saveEmail.setText("Save Email");
-        /************************************************Program*********************************************/
+        saveEmail.setText("Save New Email");
+
+        final Button saveFname=new Button(container.getContext());
+        saveFname.setText("Save New First Name");
+
+        final Button saveLname=new Button(container.getContext());
+        saveLname.setText("Save New Last Name");
+
+        final Button savePass=new Button(container.getContext());
+        savePass.setText("Save New Password");
+
+        final Button savePhone=new Button(container.getContext());
+        savePhone.setText("Save New Phone Number");
+        /************************************************Changing Email*********************************************/
         changeEmail.setOnClickListener(new View.OnClickListener() {
             Messagebox m=new Messagebox();
             @Override
@@ -114,6 +150,175 @@ public class ProfileFragment extends Fragment {
                     textEmail.setText(customer.getEmail());
                     Toast.makeText(container.getContext(), "Email Changed successfully",Toast.LENGTH_SHORT).show();
                     lEmail.removeAllViews();
+                }
+
+            }
+        });
+        /************************changing First Name***********************************/
+        changeFname.setOnClickListener(new View.OnClickListener() {
+            Messagebox m=new Messagebox();
+            @Override
+            public void onClick(View view) {
+                if (lFname.getChildCount()==0)
+                {
+                    lFname.addView(newFname);
+                    lFname.addView(saveFname);
+                }
+                else
+                    lFname.removeAllViews();
+            }
+        });
+        saveFname.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DataBaseHelper dataBaseHelper=new DataBaseHelper(container.getContext(),"CUSTOMER",null,1);
+                //allCustomersCursor.moveToFirst();
+                //fname.setText(allCustomersCursor.getString(0)+"\n");
+                if(newFname.getText().toString().isEmpty()) {
+                    Toast.makeText(container.getContext(), "Invalid First Name",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                else
+                {
+                    customer.setFirstName(newFname.getText().toString());
+                    dataBaseHelper.updateCustomer(customer.getEmail(),customer);
+                    textFname.setText(customer.getFirstName());
+                    Toast.makeText(container.getContext(), "First Name Changed successfully",Toast.LENGTH_SHORT).show();
+                    lFname.removeAllViews();
+                }
+
+            }
+        });
+        /****************************************chaning Last Name*****************************************/
+        changeLname.setOnClickListener(new View.OnClickListener() {
+            Messagebox m=new Messagebox();
+            @Override
+            public void onClick(View view) {
+                if (lLname.getChildCount()==0)
+                {
+                    lLname.addView(newLname);
+                    lLname.addView(saveLname);
+                }
+                else
+                    lLname.removeAllViews();
+            }
+        });
+        saveLname.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DataBaseHelper dataBaseHelper=new DataBaseHelper(container.getContext(),"CUSTOMER",null,1);
+                //allCustomersCursor.moveToFirst();
+                //fname.setText(allCustomersCursor.getString(0)+"\n");
+                if(newLname.getText().toString().isEmpty()) {
+                    Toast.makeText(container.getContext(), "Invalid Last Name ",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                else
+                {
+                    customer.setLastName(newLname.getText().toString());
+                    dataBaseHelper.updateCustomer(customer.getEmail(),customer);
+                    textLname.setText(customer.getLastName());
+                    Toast.makeText(container.getContext(), "Last Name Changed successfully",Toast.LENGTH_SHORT).show();
+                    lLname.removeAllViews();
+                }
+
+            }
+        });
+        /*********************changing Password*****************************************************/
+        changePass.setOnClickListener(new View.OnClickListener() {
+            Messagebox m=new Messagebox();
+            @Override
+            public void onClick(View view) {
+                if (hPass.getChildCount()==0)
+                {
+                    hPass.addView(newVPass);
+                    hPass.addView(savePass);
+                    vPass.addView(newHPass);
+
+                }
+                else
+                {
+                    hPass.removeAllViews();
+                    vPass.removeAllViews();
+                    vPass.addView(hPass);
+                }
+            }
+        });
+        savePass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DataBaseHelper dataBaseHelper=new DataBaseHelper(container.getContext(),"CUSTOMER",null,1);
+                //allCustomersCursor.moveToFirst();
+                //fname.setText(allCustomersCursor.getString(0)+"\n");
+                if(newVPass.getText().toString().isEmpty()) {
+                    Toast.makeText(container.getContext(), "Invalid Password ",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else if(!newHPass.getText().toString().equals(newVPass.getText().toString()))
+                {
+                    Toast.makeText(container.getContext(), "Passwords don't match! ",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                else
+                {
+                    customer.setPassword(newVPass.getText().toString());
+                    dataBaseHelper.updateCustomer(customer.getEmail(),customer);
+                    textPass.setText(customer.getPassword());
+                    Toast.makeText(container.getContext(), "Password Changed successfully",Toast.LENGTH_SHORT).show();
+                    hPass.removeAllViews();
+                    vPass.removeAllViews();
+                    vPass.addView(hPass);
+                }
+
+            }
+        });
+        /******************************************Changing Phone NUmber************************************/
+        changePhone.setOnClickListener(new View.OnClickListener() {
+            Messagebox m=new Messagebox();
+            @Override
+            public void onClick(View view) {
+                if (lPhone.getChildCount()==0)
+                {
+                    lPhone.addView(newPhone);
+                    lPhone.addView(savePhone);
+                }
+                else
+                    lPhone.removeAllViews();
+            }
+        });
+        savePhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DataBaseHelper dataBaseHelper=new DataBaseHelper(container.getContext(),"CUSTOMER",null,1);
+                //allCustomersCursor.moveToFirst();
+                //fname.setText(allCustomersCursor.getString(0)+"\n");
+                if(newPhone.getText().toString().isEmpty()) {
+                    Toast.makeText(container.getContext(), "Invalid Last Name ",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                else
+                {
+                    if(customer.getCountry().equals("Japan"))
+                        customer.setPhone("00970"+newPhone.getText().toString());
+                    else if(customer.getCountry().equals("France"))
+                        customer.setPhone("00971"+newPhone.getText().toString());
+                    else if(customer.getCountry().equals("Russia"))
+                        customer.setPhone("00972"+newPhone.getText().toString());
+                    else if(customer.getCountry().equals("Tunisia"))
+                        customer.setPhone("00973"+newPhone.getText().toString());
+                    dataBaseHelper.updateCustomer(customer.getEmail(),customer);
+                    textPhone.setText(customer.getPhone());
+                    Toast.makeText(container.getContext(), "Phone Number Changed successfully",Toast.LENGTH_SHORT).show();
+                    lPhone.removeAllViews();
                 }
 
             }
