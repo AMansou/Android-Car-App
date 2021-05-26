@@ -3,6 +3,7 @@ package com.example.brojekt.ui.gallery;
 import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -12,22 +13,27 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.RadioButton;
+import android.widget.ScrollView;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.brojekt.CarFrag;
+import com.example.brojekt.CarFrag2;
 import com.example.brojekt.DataBaseHelper;
 import com.example.brojekt.Messagebox;
 import com.example.brojekt.R;
 import com.example.brojekt.SignUp_1172631_1171821;
+import com.google.android.material.navigation.NavigationView;
 
 
 import java.text.SimpleDateFormat;
@@ -41,6 +47,7 @@ public class CarMenuFragment extends Fragment {
     TextView cText;
     private FragmentActivity myContext;
     LinearLayout linearLayout;
+    ScrollView scroll;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -57,34 +64,37 @@ public class CarMenuFragment extends Fragment {
         final Button[] button = new Button[1];
         final ArrayList<Button>[] buttons = new ArrayList[]{new ArrayList<Button>()};
         linearLayout=new LinearLayout(container.getContext());
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        scroll=new ScrollView(container.getContext());
+        int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 60, getResources().getDisplayMetrics());
+        int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, getResources().getDisplayMetrics());
         int i = 0;
         while(c.moveToNext()){
 
             button[0] =new Button(container.getContext());
             buttons[0].add(button[0]);
-            buttons[0].get(i).setText(c.getString(1));//String.valueOf(i));
+            buttons[0].get(i).setText(c.getString(1)+" "+ c.getString(0));//String.valueOf(i));
             buttons[0].get(i).setTag(String.valueOf(i));
-            if(i%4==0){
-                lol.addView(linearLayout);
-                linearLayout=new LinearLayout(container.getContext());
-                linearLayout.setOrientation(LinearLayout.HORIZONTAL);
-
-            }
             linearLayout.addView(buttons[0].get(i));
+            buttons[0].get(i).setLayoutParams(new LinearLayout.LayoutParams(width,height));
             i++;
 
 
         }
-        if(i%4!=0)
-            lol.addView(linearLayout);
+        scroll.addView(linearLayout);
+        lol.addView(scroll);
         final FragmentManager fragmentManager = myContext.getSupportFragmentManager();
+
         String str;
         final CarFrag firstFragment = new CarFrag();
+        final CarFrag2 secondFragment = new CarFrag2();
         c=dataBaseHelper.getAllCars();
         i=0;
+        final String[] tag = {""};
         while ( c.moveToNext()) {
-            str="Model: "+c.getString(1)+"\nMake: "+c.getString(0)+"\nYear: "+c.getString(2)+"\nPrice: "+c.getString(3)+"$\nDistance in Km: "+c.getString(4)+"\n"+ c.getString(5)+"\n"+c.getString(6)+"\n";
+            str="Model: "+c.getString(1)+"\nMake: "+c.getString(0)+"\nYear: "+c.getString(2)+"\nPrice: "+c.getString(3)+"$\nDistance in Km: "+c.getString(4)+"\nAccidents: "+Boolean.parseBoolean( c.getString(5))+"\nOffers: "+Boolean.parseBoolean(c.getString(6))+"\n";
             final String finalStr = str;
+            final int finalI = i;
             root.findViewWithTag(String.valueOf(i)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -92,22 +102,70 @@ public class CarMenuFragment extends Fragment {
                     //MenuInflater menuInflater = getActivity().getMenuInflater();
                     //menuInflater.inflate(R.menu.popup_menu, popupMenu.getMenu());
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    if (!firstFragment.isAdded()) {
+                    if (!firstFragment.isAdded() &&!secondFragment.isAdded()) {
+
+
                         firstFragment.setText(finalStr);
                         fragmentTransaction.add(R.id.drawer_layout, firstFragment, "CarFrag");
                         fragmentTransaction.commit();
+                        tag[0]=String.valueOf(finalI);
 
                     }
-                    else
+                    else if(!firstFragment.isAdded())
                     {
-                        fragmentTransaction.remove( firstFragment);
-                        fragmentTransaction.commit();
+                        if(tag[0].equals(String.valueOf(finalI))){
+                            fragmentTransaction.remove( secondFragment);
+                            fragmentTransaction.commit();
+                            tag[0]="";
+                        }
+                        else {
+                            firstFragment.setText(finalStr);
+                            fragmentTransaction.replace(R.id.drawer_layout, firstFragment);
+                            fragmentTransaction.commit();
+                            tag[0]=String.valueOf(finalI);
+                        }
+                    }
+                    else if(!secondFragment.isAdded())
+                    {
+                        if(tag[0].equals(String.valueOf(finalI))){
+                            fragmentTransaction.remove( firstFragment);
+                            fragmentTransaction.commit();
+                            tag[0]="";
+
+                        }
+                        else {
+                            secondFragment.setText(finalStr);
+                            fragmentTransaction.replace(R.id.drawer_layout, secondFragment);
+                            fragmentTransaction.commit();
+                            tag[0] =String.valueOf(finalI);
+                            //Toast.makeText(container.getContext(), String.valueOf(finalI),Toast.LENGTH_SHORT).show();
+
+                        }
                     }
                 }
             });
             i++;
         }
-        c=dataBaseHelper.getAllCars();
+
+        LinearLayout l=(LinearLayout) root.findViewById(R.id.upper);
+        //l.OnTouchOutsideViewListener
+        l.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                if (secondFragment.isAdded()) {
+                    fragmentTransaction.remove( secondFragment);
+                    fragmentTransaction.commit();
+
+                }
+                else if(firstFragment.isAdded() ){
+                    fragmentTransaction.remove( firstFragment);
+                    fragmentTransaction.commit();
+                }
+            }
+        });
+
+                c = dataBaseHelper.getAllCars();
         i=0;
         while (c.moveToNext()){
             String message="Model: "+c.getString(1)+" Make: "+c.getString(0)+" Year: "+c.getString(2)+" Price: "+c.getString(3)+"$ Distance in Km: "+c.getString(4)+" Accidents: "+ c.getString(5)+" Offers: "+c.getString(6)+"\n";
@@ -226,6 +284,7 @@ public class CarMenuFragment extends Fragment {
         myContext=(FragmentActivity) activity;
         super.onAttach(activity);
     }
+
 
 
 }

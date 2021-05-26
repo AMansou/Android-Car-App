@@ -13,9 +13,9 @@ import android.widget.TextView;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CarFrag extends Fragment {
+public class CarFrag2 extends Fragment {
     private String s;
-    public CarFrag() {
+    public CarFrag2() {
 
     }
 

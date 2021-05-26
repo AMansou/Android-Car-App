@@ -2,17 +2,27 @@ package com.example.brojekt;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.app.Activity;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -25,7 +35,7 @@ public class CustomerHome_1172631_1171821 extends AppCompatActivity {
     Uri imageUri;
     private static final int PICK_IMAGE = 100;
     private AppBarConfiguration mAppBarConfiguration;
-
+    private FragmentActivity myContext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +61,7 @@ public class CustomerHome_1172631_1171821 extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-        
+
         pfp = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.imageView);
         pfp.setOnClickListener((new View.OnClickListener() {
             public void onClick(View v) {
@@ -83,6 +93,7 @@ public class CustomerHome_1172631_1171821 extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
