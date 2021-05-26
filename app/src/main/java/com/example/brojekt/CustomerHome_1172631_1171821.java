@@ -1,6 +1,7 @@
 package com.example.brojekt;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.app.Activity;
 import android.os.Bundle;
@@ -30,6 +31,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import java.io.IOException;
+
+import static com.example.brojekt.Login_1172631_1171821.customer;
+
 public class CustomerHome_1172631_1171821 extends AppCompatActivity {
     ImageView pfp;
     Uri imageUri;
@@ -55,7 +60,8 @@ public class CustomerHome_1172631_1171821 extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,R.id.nav_favorites,R.id.nav_profile)
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,R.id.nav_favorites,
+                R.id.nav_profile, R.id.nav_logout_customer)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
