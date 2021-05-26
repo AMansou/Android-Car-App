@@ -3,6 +3,7 @@ package com.example.brojekt.ui.gallery;
 import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.RadioButton;
+import android.widget.ScrollView;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +43,7 @@ public class CarMenuFragment extends Fragment {
     TextView cText;
     private FragmentActivity myContext;
     LinearLayout linearLayout;
+    ScrollView scroll;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -57,33 +60,32 @@ public class CarMenuFragment extends Fragment {
         final Button[] button = new Button[1];
         final ArrayList<Button>[] buttons = new ArrayList[]{new ArrayList<Button>()};
         linearLayout=new LinearLayout(container.getContext());
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        scroll=new ScrollView(container.getContext());
+        int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 60, getResources().getDisplayMetrics());
+        int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, getResources().getDisplayMetrics());
         int i = 0;
         while(c.moveToNext()){
 
             button[0] =new Button(container.getContext());
             buttons[0].add(button[0]);
-            buttons[0].get(i).setText(c.getString(1));//String.valueOf(i));
+            buttons[0].get(i).setText(c.getString(1)+" "+ c.getString(0));//String.valueOf(i));
             buttons[0].get(i).setTag(String.valueOf(i));
-            if(i%4==0){
-                lol.addView(linearLayout);
-                linearLayout=new LinearLayout(container.getContext());
-                linearLayout.setOrientation(LinearLayout.HORIZONTAL);
-
-            }
             linearLayout.addView(buttons[0].get(i));
+            buttons[0].get(i).setLayoutParams(new LinearLayout.LayoutParams(width,height));
             i++;
 
 
         }
-        if(i%4!=0)
-            lol.addView(linearLayout);
+        scroll.addView(linearLayout);
+        lol.addView(scroll);
         final FragmentManager fragmentManager = myContext.getSupportFragmentManager();
         String str;
         final CarFrag firstFragment = new CarFrag();
         c=dataBaseHelper.getAllCars();
         i=0;
         while ( c.moveToNext()) {
-            str="Model: "+c.getString(1)+"\nMake: "+c.getString(0)+"\nYear: "+c.getString(2)+"\nPrice: "+c.getString(3)+"$\nDistance in Km: "+c.getString(4)+"\n"+ c.getString(5)+"\n"+c.getString(6)+"\n";
+            str="Model: "+c.getString(1)+"\nMake: "+c.getString(0)+"\nYear: "+c.getString(2)+"\nPrice: "+c.getString(3)+"$\nDistance in Km: "+c.getString(4)+"\nAccidents: "+Boolean.parseBoolean( c.getString(5))+"\nOffers: "+Boolean.parseBoolean(c.getString(6))+"\n";
             final String finalStr = str;
             root.findViewWithTag(String.valueOf(i)).setOnClickListener(new View.OnClickListener() {
                 @Override
