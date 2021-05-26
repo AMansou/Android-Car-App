@@ -1,8 +1,11 @@
 package com.example.brojekt;
 
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -28,6 +31,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import static com.example.brojekt.Login_1172631_1171821.customer;
@@ -65,6 +74,10 @@ public class AdminHome_1172631_1171821 extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
 
         pfp = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.imageView);
+        Bitmap userimage = getImage(customer.getEmail());
+        if(userimage!=null) {
+            pfp.setImageBitmap(userimage);
+        }
         pfp.setOnClickListener((new View.OnClickListener() {
             public void onClick(View v) {
                 openGallery();
@@ -101,6 +114,12 @@ public class AdminHome_1172631_1171821 extends AppCompatActivity {
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE){
             imageUri = data.getData();
             pfp.setImageURI(imageUri);
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+                saveToInternalStorage(bitmap, customer.getEmail());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -117,4 +136,50 @@ public class AdminHome_1172631_1171821 extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+
+    @NotNull
+    private String saveToInternalStorage(Bitmap bitmapImage, String mail){
+        ContextWrapper cw = new ContextWrapper(getApplicationContext());
+        // path to /data/data/yourapp/app_data/imageDir
+        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+        // Create imageDir
+        File mypath=new File(directory,mail + ".bmp");
+
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(mypath);
+            // Use the compress method on the BitMap object to write image to the OutputStream
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return directory.getAbsolutePath();
+    }
+    private Bitmap getImage(String email) {
+
+        try {
+            ContextWrapper cw = new ContextWrapper(getApplicationContext());
+            File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+            File f=new File(directory, email+".bmp");
+            if(!f.exists()){
+                return null;
+            }
+            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+            return b;
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }
+
