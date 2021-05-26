@@ -50,8 +50,8 @@ public class CarMenuFragment extends Fragment {
         final DataBaseHelper dataBaseHelper =new DataBaseHelper(container.getContext(),"CARS",null,1);
         Cursor c=dataBaseHelper.getAllCars();
         /****************************************************************/
-        Messagebox f=new Messagebox();
-        f.show("bye",customer.getCars(),container.getContext());
+        //Messagebox f=new Messagebox();
+        //f.show("bye",customer.getCars(),container.getContext());
 
 
         final Button[] button = new Button[1];

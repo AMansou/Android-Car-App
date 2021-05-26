@@ -25,7 +25,7 @@ public class Messagebox
                         DataBaseHelper dataBaseHelper=new DataBaseHelper(context,"CUSTOMER",null,1);
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
                         String currentDateandTime = sdf.format(new Date());
-                        customer.setCars(customer.getCars()+"\n"+message+" Date and Time: "+currentDateandTime+"\n");
+                        customer.setCars(customer.getCars()+message+" Date and Time: "+currentDateandTime+"%");
                         dataBaseHelper.updateCustomer(customer.getEmail(),customer);
                     }
                 })
@@ -57,6 +57,21 @@ public class Messagebox
 
                     }
                 })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i)
+                    {
+                        dialog.cancel();
+                    }
+                })
+                .show();
+    }
+    public void show3(String title, final String message, final Context context)
+    {
+        dialog = new AlertDialog.Builder(context) // Pass a reference to your main activity here
+                .setTitle(title)
+                .setMessage(message)
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener()
                 {
                     @Override

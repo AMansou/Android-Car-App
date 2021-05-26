@@ -14,22 +14,18 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.brojekt.R;
 
+import static com.example.brojekt.Login_1172631_1171821.customer;
+
 public class ReservationFragment extends Fragment {
 
     private ReservationViewFragment reservationViewFragment;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        reservationViewFragment =
-                ViewModelProviders.of(this).get(ReservationViewFragment.class);
-        View root = inflater.inflate(R.layout.fragment_reservation, container, false);
-        final TextView textView = root.findViewById(R.id.text_slideshow);
-        reservationViewFragment.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View root=inflater.inflate(R.layout.fragment_reservation,container, false);
+        TextView f=(TextView) root.findViewById(R.id.text_slideshow);
+        f.setText(customer.getCars().replace("%","\n\n") );
         return root;
     }
 }

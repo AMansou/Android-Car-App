@@ -53,7 +53,10 @@ public class FavoritesFragment extends Fragment {
         final DataBaseHelper dataBaseHelper =new DataBaseHelper(container.getContext(),"CARS",null,1);
         Cursor c=dataBaseHelper.getAllCars();
         /****************************************************************/
+        if (customer.getFavorites().isEmpty())
+            return root;
         final String[] splitString = customer.getFavorites().split("%");
+
 
         final Button[] button = new Button[1];
         final ArrayList<Button>[] buttons = new ArrayList[]{new ArrayList<Button>()};
@@ -78,8 +81,8 @@ public class FavoritesFragment extends Fragment {
         }
         //if(i%4!=0)
             lol.addView(linearLayout);
-        Messagebox f=new Messagebox();
-        f.show("bye", String.valueOf(splitString.length),container.getContext());
+       // Messagebox f=new Messagebox();
+        //f.show("bye", String.valueOf(splitString.length),container.getContext());
 
         final FragmentManager fragmentManager = myContext.getSupportFragmentManager();
         String str;
