@@ -1,8 +1,15 @@
 package com.example.brojekt;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -21,7 +28,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 public class AdminHome_1172631_1171821 extends AppCompatActivity {
-
+    ImageView pfp;
+    Uri imageUri;
+    private static final int PICK_IMAGE = 100;
     private AppBarConfiguration mAppBarConfiguration;
 
     @Override
@@ -50,6 +59,12 @@ public class AdminHome_1172631_1171821 extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
+        pfp = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.imageView);
+        pfp.setOnClickListener((new View.OnClickListener() {
+            public void onClick(View v) {
+                openGallery();
+            }
+        }));
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
             @Override
             public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
@@ -67,6 +82,19 @@ public class AdminHome_1172631_1171821 extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void openGallery() {
+        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        startActivityForResult(gallery, PICK_IMAGE);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == PICK_IMAGE){
+            imageUri = data.getData();
+            pfp.setImageURI(imageUri);
+        }
     }
 
     @Override

@@ -1,8 +1,12 @@
 package com.example.brojekt;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.view.Menu;
+import android.widget.ImageView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -17,7 +21,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 public class CustomerHome_1172631_1171821 extends AppCompatActivity {
-
+    ImageView pfp;
+    Uri imageUri;
+    private static final int PICK_IMAGE = 100;
     private AppBarConfiguration mAppBarConfiguration;
 
     @Override
@@ -45,6 +51,26 @@ public class CustomerHome_1172631_1171821 extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+        
+        pfp = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.imageView);
+        pfp.setOnClickListener((new View.OnClickListener() {
+            public void onClick(View v) {
+                openGallery();
+            }
+        }));
+    }
+
+    private void openGallery() {
+        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        startActivityForResult(gallery, PICK_IMAGE);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == PICK_IMAGE){
+            imageUri = data.getData();
+            pfp.setImageURI(imageUri);
+        }
     }
 
     @Override
