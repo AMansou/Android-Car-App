@@ -20,9 +20,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.brojekt.DataBaseHelper;
+import com.example.brojekt.Encryption;
 import com.example.brojekt.Messagebox;
 import com.example.brojekt.R;
 import com.example.brojekt.SignUp_1172631_1171821;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.example.brojekt.Login_1172631_1171821.customer;
 
@@ -46,9 +50,6 @@ public class ProfileFragment extends Fragment {
         final Button changeLname=(Button) root.findViewById(R.id.changeLname);
         final Button changePass=(Button) root.findViewById(R.id.changePass);
         final Button changePhone=(Button) root.findViewById(R.id.changePhone);
-        final Button changeGender=(Button) root.findViewById(R.id.changeGender);
-        final Button changeCountry=(Button) root.findViewById(R.id.changeCountry);
-        final Button changeCity=(Button) root.findViewById(R.id.changeCity);
         /*****************************Defining layouts **********************************************************/
         final LinearLayout lEmail=(LinearLayout) root.findViewById(R.id.lEmail);
         final LinearLayout lFname=(LinearLayout) root.findViewById(R.id.lFname);
@@ -63,7 +64,10 @@ public class ProfileFragment extends Fragment {
         textEmail.setText(customer.getEmail());
         textFname.setText(customer.getFirstName());
         textLname.setText(customer.getLastName());
-        textPass.setText(customer.getPassword());
+        Encryption encryption = Encryption.getDefault("Key", "Salt", new byte[16]);
+        String decrypted = encryption.decryptOrNull(customer.getPassword());
+        textPass.setText(decrypted);
+        //textPass.setText(customer.getPassword());
         textPhone.setText(customer.getPhone());
         textGender.setText(customer.getGender());
         textCountry.setText(customer.getCountry());
@@ -90,7 +94,7 @@ public class ProfileFragment extends Fragment {
 
         final EditText newPhone=new EditText(container.getContext());
         newPhone.setHint("Please Enter New Phone Number");
-        newPhone.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+        newPhone.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_CLASS_NUMBER);
 
         /**************************************New Buttons******************************************************/
         final Button saveEmail=new Button(container.getContext());
@@ -125,6 +129,7 @@ public class ProfileFragment extends Fragment {
         saveEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
                 DataBaseHelper dataBaseHelper=new DataBaseHelper(container.getContext(),"CUSTOMER",null,1);
                 Cursor allCustomersCursor = dataBaseHelper.getAllCustomers();
                 while (allCustomersCursor.moveToNext()){
@@ -137,7 +142,7 @@ public class ProfileFragment extends Fragment {
                 }
                 //allCustomersCursor.moveToFirst();
                 //fname.setText(allCustomersCursor.getString(0)+"\n");
-                if(newEmail.getText().toString().isEmpty()) {
+                if(!newEmail.getText().toString().trim().matches(emailPattern)) {
                     Toast.makeText(container.getContext(), "Invalid E-mail Address",
                             Toast.LENGTH_SHORT).show();
                     return;
@@ -174,7 +179,7 @@ public class ProfileFragment extends Fragment {
                 DataBaseHelper dataBaseHelper=new DataBaseHelper(container.getContext(),"CUSTOMER",null,1);
                 //allCustomersCursor.moveToFirst();
                 //fname.setText(allCustomersCursor.getString(0)+"\n");
-                if(newFname.getText().toString().isEmpty()) {
+                if(newFname.getText().toString().length()<3) {
                     Toast.makeText(container.getContext(), "Invalid First Name",
                             Toast.LENGTH_SHORT).show();
                     return;
@@ -211,7 +216,7 @@ public class ProfileFragment extends Fragment {
                 DataBaseHelper dataBaseHelper=new DataBaseHelper(container.getContext(),"CUSTOMER",null,1);
                 //allCustomersCursor.moveToFirst();
                 //fname.setText(allCustomersCursor.getString(0)+"\n");
-                if(newLname.getText().toString().isEmpty()) {
+                if(newLname.getText().toString().length()<3) {
                     Toast.makeText(container.getContext(), "Invalid Last Name ",
                             Toast.LENGTH_SHORT).show();
                     return;
@@ -251,11 +256,17 @@ public class ProfileFragment extends Fragment {
         savePass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String passwordRegex="^(?=.*[0-9])"
+                        + "(?=.*[a-z])(?=.*[A-Z])"
+                        + "(?=.*[@#$%^&+=])"
+                        + "(?=\\S+$).{8,20}$";
+                Pattern p = Pattern.compile(passwordRegex);
+                Matcher m = p.matcher(newVPass.getText().toString().trim());
                 DataBaseHelper dataBaseHelper=new DataBaseHelper(container.getContext(),"CUSTOMER",null,1);
                 //allCustomersCursor.moveToFirst();
                 //fname.setText(allCustomersCursor.getString(0)+"\n");
-                if(newVPass.getText().toString().isEmpty()) {
-                    Toast.makeText(container.getContext(), "Invalid Password ",
+                if(newVPass.getText().toString().trim().isEmpty()|| !m.matches()) {
+                    Toast.makeText(container.getContext(), "Password must be between 8-20 characters, have one upper case and one lower case letter and one special character",
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -268,9 +279,11 @@ public class ProfileFragment extends Fragment {
 
                 else
                 {
-                    customer.setPassword(newVPass.getText().toString());
+                    Encryption encryption = Encryption.getDefault("Key", "Salt", new byte[16]);
+                    String encrypted = encryption.encryptOrNull(newVPass.getText().toString());
+                    customer.setPassword(encrypted);
                     dataBaseHelper.updateCustomer(customer.getEmail(),customer);
-                    textPass.setText(customer.getPassword());
+                    textPass.setText(newVPass.getText().toString());
                     Toast.makeText(container.getContext(), "Password Changed successfully",Toast.LENGTH_SHORT).show();
                     hPass.removeAllViews();
                     vPass.removeAllViews();
@@ -299,8 +312,8 @@ public class ProfileFragment extends Fragment {
                 DataBaseHelper dataBaseHelper=new DataBaseHelper(container.getContext(),"CUSTOMER",null,1);
                 //allCustomersCursor.moveToFirst();
                 //fname.setText(allCustomersCursor.getString(0)+"\n");
-                if(newPhone.getText().toString().isEmpty()) {
-                    Toast.makeText(container.getContext(), "Invalid Last Name ",
+                if(newPhone.getText().toString().length()!=10) {
+                    Toast.makeText(container.getContext(), "Invalid Phone ",
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
