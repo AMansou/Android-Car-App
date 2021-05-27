@@ -61,7 +61,7 @@ public class CustomerHome_1172631_1171821 extends AppCompatActivity {
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,R.id.nav_favorites,
-                R.id.nav_profile, R.id.nav_logout_customer)
+                R.id.nav_profile, R.id.nav_find_us, R.id.nav_logout_customer)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
