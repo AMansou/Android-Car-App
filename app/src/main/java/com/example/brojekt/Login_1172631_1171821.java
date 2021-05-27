@@ -85,10 +85,12 @@ public class Login_1172631_1171821 extends AppCompatActivity {
             public void onClick(View view) {
                 DataBaseHelper dataBaseHelper =new DataBaseHelper(Login_1172631_1171821.this,"CUSTOMER",null,1);
                 Cursor allCustomersCursor = dataBaseHelper.getAllCustomers();
+                Encryption encryption = Encryption.getDefault("Key", "Salt", new byte[16]);
+                String encrypted = encryption.encryptOrNull(password.getText().toString());
                 while (allCustomersCursor.moveToNext()){
 
                     if(email.getText().toString().equals(allCustomersCursor.getString(0)) &&
-                            password.getText().toString().equals(allCustomersCursor.getString(4)))
+                            encrypted.equals(allCustomersCursor.getString(4)))
                         break;
                     if(allCustomersCursor.isLast())
                     {

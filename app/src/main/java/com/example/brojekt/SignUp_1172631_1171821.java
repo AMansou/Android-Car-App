@@ -15,6 +15,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 public class SignUp_1172631_1171821 extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     @Override
@@ -43,6 +44,12 @@ public class SignUp_1172631_1171821 extends AppCompatActivity implements Adapter
 
         addCustomerButton.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View view) {
             String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+            String passwordRegex="^(?=.*[0-9])"
+                    + "(?=.*[a-z])(?=.*[A-Z])"
+                    + "(?=.*[@#$%^&+=])"
+                    + "(?=\\S+$).{8,20}$";
+            Pattern p = Pattern.compile(passwordRegex);
+            Matcher m = p.matcher(pass.getText().toString().trim());
             DataBaseHelper dataBaseHelper =new DataBaseHelper(SignUp_1172631_1171821.this,"CUSTOMER",null,1);
             Customer newCustomer =new Customer();
             Cursor allCustomersCursor = dataBaseHelper.getAllCustomers();
@@ -64,22 +71,22 @@ public class SignUp_1172631_1171821 extends AppCompatActivity implements Adapter
 
             else
                 newCustomer.setEmail(email.getText().toString());
-            if(fname.getText().toString().length()<3 || Pattern.matches("[0-9]+",fname.getText().toString())) {
+            if(fname.getText().toString().length()<3 || fname.getText().toString().trim().matches("[0-9]+")) {
                 Toast.makeText(SignUp_1172631_1171821.this, "Invalid First Name",
                         Toast.LENGTH_SHORT).show();
                 return;
             }
             else
                 newCustomer.setFirstName(fname.getText().toString());
-            if(lname.getText().toString().length()<3){
+            if(lname.getText().toString().length()<3|| lname.getText().toString().trim().matches("[0-9]+")){
                 Toast.makeText(SignUp_1172631_1171821.this, "Invalid Last Name",
                         Toast.LENGTH_SHORT).show();
                 return;
             }
             else
                 newCustomer.setLastName(lname.getText().toString());
-            if(pass.getText().toString().isEmpty()) {
-                Toast.makeText(SignUp_1172631_1171821.this, "Invalid Password",
+            if(pass.getText().toString().trim().isEmpty()|| !m.matches()) {
+                Toast.makeText(SignUp_1172631_1171821.this, "Password must be between 8-20 characters, have one upper case and one lower case letter and one special character",
                         Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -89,10 +96,20 @@ public class SignUp_1172631_1171821 extends AppCompatActivity implements Adapter
                 return;
             }
             else
-                newCustomer.setPassword(pass.getText().toString());
-            if(phone.getText().toString().isEmpty())
-                Toast.makeText(SignUp_1172631_1171821.this, "Invalid Phone",
+            {
+                Encryption encryption = Encryption.getDefault("Key", "Salt", new byte[16]);
+                String encrypted = encryption.encryptOrNull(pass.getText().toString());
+               newCustomer.setPassword(encrypted);
+
+                //String decrypted = encryption.decryptOrNull(encrypted);
+            }
+            if(phone.getText().toString().length()!=10)
+            {
+                Toast.makeText(SignUp_1172631_1171821.this, "Phone Must Be 10 digits long",
                         Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             else
                 newCustomer.setPhone(code.getText().toString()+phone.getText().toString());
 
@@ -155,4 +172,5 @@ public class SignUp_1172631_1171821 extends AppCompatActivity implements Adapter
     public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
+
 }
