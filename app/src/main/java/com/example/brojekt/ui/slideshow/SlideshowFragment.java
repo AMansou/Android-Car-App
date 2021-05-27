@@ -33,9 +33,11 @@ public class SlideshowFragment extends Fragment {
         Cursor c = dataBaseHelper.getAllCustomers();
 
         while(c.moveToNext()){
-            carReservations = carReservations + c.getString(9);
+            if(!c.getString(9).equals("")) {
+                carReservations = carReservations + "Customer:" + c.getString(0) + "\n" + c.getString(9);
+            }
         }
-        carResDisplay.setText(carReservations);
+        carResDisplay.setText(carReservations.replace("%","\n\n"));
         return root;
     }
 }
