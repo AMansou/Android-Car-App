@@ -48,4 +48,9 @@
         android:name="com.example.brojekt.ui.logout.LogoutFragment"
         android:label="Logout"
         tools:layout="@layout/fragment_logout" />
+    <fragment
+        android:id="@+id/nav_find_us"
+        android:name="com.example.brojekt.ui.contactus.contactFrag"
+        android:label="Contact us"
+        tools:layout="@layout/fragment_contact" />
 </navigation>
