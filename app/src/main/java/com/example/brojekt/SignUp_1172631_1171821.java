@@ -42,6 +42,7 @@ public class SignUp_1172631_1171821 extends AppCompatActivity implements Adapter
 
 
         addCustomerButton.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View view) {
+            String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
             DataBaseHelper dataBaseHelper =new DataBaseHelper(SignUp_1172631_1171821.this,"CUSTOMER",null,1);
             Customer newCustomer =new Customer();
             Cursor allCustomersCursor = dataBaseHelper.getAllCustomers();
@@ -55,7 +56,7 @@ public class SignUp_1172631_1171821 extends AppCompatActivity implements Adapter
             }
             //allCustomersCursor.moveToFirst();
             //fname.setText(allCustomersCursor.getString(0)+"\n");
-            if(email.getText().toString().isEmpty()) {
+            if(!email.getText().toString().trim().matches(emailPattern)) {
                 Toast.makeText(SignUp_1172631_1171821.this, "Invalid E-mail Address",
                         Toast.LENGTH_SHORT).show();
                 return;
@@ -63,14 +64,14 @@ public class SignUp_1172631_1171821 extends AppCompatActivity implements Adapter
 
             else
                 newCustomer.setEmail(email.getText().toString());
-            if(fname.getText().toString().isEmpty() || Pattern.matches("[0-9]+",fname.getText().toString())) {
+            if(fname.getText().toString().length()<3 || Pattern.matches("[0-9]+",fname.getText().toString())) {
                 Toast.makeText(SignUp_1172631_1171821.this, "Invalid First Name",
                         Toast.LENGTH_SHORT).show();
                 return;
             }
             else
                 newCustomer.setFirstName(fname.getText().toString());
-            if(lname.getText().toString().isEmpty()){
+            if(lname.getText().toString().length()<3){
                 Toast.makeText(SignUp_1172631_1171821.this, "Invalid Last Name",
                         Toast.LENGTH_SHORT).show();
                 return;
